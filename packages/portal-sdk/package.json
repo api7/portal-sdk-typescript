@@ -1,0 +1,43 @@
+{
+  "name": "@api7/portal-sdk",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/api7/portal-sdk-typescript"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "devDependencies": {
+    "@hey-api/openapi-ts": "0.89.2"
+  },
+  "dependencies": {
+    "axios": "^1.13.2"
+  },
+  "nx": {
+    "name": "portal-sdk",
+    "targets": {
+      "openapi-ts": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "openapi-ts",
+          "cwd": "packages/portal-sdk"
+        }
+      }
+    }
+  }
+}

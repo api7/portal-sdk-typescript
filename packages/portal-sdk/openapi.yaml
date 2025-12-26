@@ -1,0 +1,1679 @@
+openapi: 3.0.1
+info:
+  title: API7 Enterprise Developer Portal APIs
+  description: "API7 Enterprise Developer Portal APIs are RESTful APIs that allow you to create and manage developer portal resources. "
+  version: 0.11.0
+servers: []
+security:
+  - BearerAuth: []
+paths:
+  /api/developers:
+    get:
+      tags:
+        - Developer
+      summary: List Developers
+      operationId: listDevelopers
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+        - $ref: "#/components/parameters/DeveloperOrderBy"
+        - $ref: "#/components/parameters/Search"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListDeveloperResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+    post:
+      tags:
+        - Developer
+      summary: Create a developer
+      operationId: createDeveloper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDeveloperReq"
+      responses:
+        "201":
+          $ref: "#/components/responses/DeveloperResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/developers/{developer_id}":
+    delete:
+      tags:
+        - Developer
+      summary: Delete a developer
+      operationId: deleteDeveloper
+      parameters:
+        - $ref: "#/components/parameters/DeveloperID"
+      responses:
+        "204":
+          $ref: "#/components/responses/response204"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/api_products:
+    get:
+      tags:
+        - API Product
+      summary: List all API products
+      operationId: listAPIProducts
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+        - $ref: "#/components/parameters/OrderBy"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/APIProductSubscriptionStatus"
+        - $ref: "#/components/parameters/ApplicationIDInQuery"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListAPIProductResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/api_products/{api_product_id}":
+    get:
+      tags:
+        - API Product
+      summary: Get an API Product for Developer Portal
+      operationId: getAPIProduct
+      parameters:
+        - $ref: "#/components/parameters/APIProductID"
+      responses:
+        "200":
+          $ref: "#/components/responses/APIProductResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/api_products/{api_product_id}/subscriptions":
+    post:
+      tags:
+        - API Product
+      summary: Create a subscription for an API Product.
+      operationId: createAPIProductSubscription
+      parameters:
+        - $ref: "#/components/parameters/APIProductID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAPIProductSubscriptionReq"
+      responses:
+        "201":
+          $ref: "#/components/responses/response201"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/subscriptions:
+    get:
+      tags:
+        - Subscription
+      summary: List subscriptions.
+      operationId: listSubscriptions
+      parameters:
+        - $ref: "#/components/parameters/APIProductIDInQuery"
+        - $ref: "#/components/parameters/ApplicationIDInQuery"
+        - $ref: "#/components/parameters/SubscriptionStatusInQuery"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/SubscriptionsOrderBy"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListSubscriptionResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+    post:
+      tags:
+        - Subscription
+      summary: Create a subscription for an API Product
+      operationId: createSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSubscriptionReq"
+      responses:
+        "201":
+          $ref: "#/components/responses/response201"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/subscriptions/{subscription_id}":
+    delete:
+      tags:
+        - Subscription
+      summary: Unsubscribe an API product for the given application
+      operationId: deleteSubscription
+      parameters:
+        - $ref: "#/components/parameters/SubscriptionID"
+      responses:
+        "204":
+          $ref: "#/components/responses/response204"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/applications:
+    post:
+      tags:
+        - Application
+      summary: Create a application by the logged in developer.
+      operationId: createDeveloperApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDeveloperApplicationReq"
+      responses:
+        "201":
+          $ref: "#/components/responses/DeveloperApplicationResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+    get:
+      tags:
+        - Application
+      summary: List all applications for the logged in developer.
+      operationId: listDeveloperApplications
+      parameters:
+        - $ref: "#/components/parameters/APIProductIDInQuery"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/LabelsMapInQuery"
+        - $ref: "#/components/parameters/OrderBy"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListDeveloperApplicationResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/applications/{application_id}":
+    get:
+      tags:
+        - Application
+      summary: Get a application for the logged in developer.
+      operationId: getDeveloperApplication
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeveloperApplicationResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+    put:
+      tags:
+        - Application
+      summary: Update a application basic information by the logged in developer.
+      operationId: updateDeveloperApplication
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDeveloperApplicationReq"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeveloperApplicationResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+    delete:
+      tags:
+        - Application
+      summary: Delete a application by the logged in developer.
+      operationId: deleteDeveloperApplication
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "204":
+          $ref: "#/components/responses/response204"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/applications/{application_id}/credentials":
+    post:
+      tags:
+        - Credential
+      summary: Create a developer credential
+      operationId: createDeveloperCredential
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateApplicationCredentialReq"
+      responses:
+        "201":
+          $ref: "#/components/responses/ApplicationCredentialResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+    get:
+      tags:
+        - Credential
+      summary: List all credentials for the logged in developer
+      operationId: listDeveloperCredentials
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/AuthMethod"
+        - $ref: "#/components/parameters/DeveloperCredentialPluginName"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+        - $ref: "#/components/parameters/CredentialOrderBy"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/LabelsMapInQuery"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListApplicationCredentialResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/applications/{application_id}/credentials/{credential_id}":
+    get:
+      tags:
+        - Credential
+      summary: Get a developer credential for Developer Portal
+      operationId: getDeveloperCredential
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/DeveloperCredentialID"
+      responses:
+        "200":
+          $ref: "#/components/responses/ApplicationCredentialResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+    put:
+      tags:
+        - Credential
+      summary: Update a developer credential for Developer Portal
+      operationId: upsertDeveloperCredential
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/DeveloperCredentialID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateApplicationCredentialReq"
+      responses:
+        "200":
+          $ref: "#/components/responses/ApplicationCredentialResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+    delete:
+      tags:
+        - Credential
+      summary: Delete a developer credential for Developer Portal
+      operationId: deleteDeveloperCredential
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/DeveloperCredentialID"
+      responses:
+        "204":
+          $ref: "#/components/responses/response204"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/applications/{application_id}/credentials/{credential_id}/regenerate":
+    put:
+      tags:
+        - Credential
+      summary: Regenerate a developer credential auth conf
+      operationId: regenerateDeveloperCredential
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/DeveloperCredentialID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegenerateApplicationCredentialReq"
+      responses:
+        "200":
+          $ref: "#/components/responses/ApplicationCredentialResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/applications/api_calls:
+    get:
+      tags:
+        - API Calls
+      summary: Get API Calls
+      description: Retrieve a list of API calls made by the user.
+      operationId: getApiCalls
+      parameters:
+        - $ref: "#/components/parameters/ApplicationsIDs"
+        - $ref: "#/components/parameters/APIProductIDs"
+        - $ref: "#/components/parameters/CredentialIDs"
+        - $ref: "#/components/parameters/StartAt"
+        - $ref: "#/components/parameters/EndAt"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListAPICallResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/credentials:
+    get:
+      tags:
+        - Credential
+      summary: List all Credentials
+      operationId: listCredentials
+      parameters:
+        - $ref: "#/components/parameters/ApplicationsIDs"
+        - $ref: "#/components/parameters/AuthMethod"
+        - $ref: "#/components/parameters/DeveloperCredentialPluginName"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+        - $ref: "#/components/parameters/CredentialOrderBy"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/LabelsMapInQuery"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListApplicationCredentialResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  "/api/labels/{resource_type}":
+    get:
+      tags:
+        - Label
+      summary: Get all labels of a resource type
+      operationId: listLabels
+      parameters:
+        - $ref: "#/components/parameters/DeveloperPortalLabelResourceType"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListLabelResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/system_settings/smtp_server_status:
+    get:
+      tags:
+        - System Settings
+      summary: Get SMTP server settings status
+      operationId: getSMTPServerStatus
+      description: Get SMTP server settings status.
+      responses:
+        "200":
+          $ref: "#/components/responses/SMTPServerSettingsStatusResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/system_settings/public_access:
+    get:
+      tags:
+        - System Settings
+      summary: Get public access settings
+      operationId: getPublicAccessSettings
+      responses:
+        "200":
+          $ref: "#/components/responses/PortalPublicAccessResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/dcr_providers:
+    get:
+      tags:
+        - DCR Provider
+      summary: List all DCR providers
+      operationId: listDCRProviders
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+        - $ref: "#/components/parameters/OrderBy"
+        - $ref: "#/components/parameters/Search"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListDCRProviderResponse"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ID:
+      description: The object ID.
+      type: string
+      pattern: "^[a-zA-Z0-9-_.]+$"
+      minLength: 1
+      maxLength: 256
+      example: bd58fce2-b6cc-4d2d-a53c-6ce11b19c101
+    Name:
+      description: The object name.
+      type: string
+      minLength: 1
+      maxLength: 100
+      example: us-west-rsc
+    Description:
+      description: The object description.
+      type: string
+      maxLength: 65536
+      example: Object description.
+    Total:
+      type: integer
+      minimum: 0
+      example: 1
+      description: Total number of objects.
+    LabelsMap:
+      type: object
+      additionalProperties:
+        type: string
+        pattern: ^.+$
+        minLength: 1
+        maxLength: 65536
+      description: Key-value pairs of labels.
+      example:
+        version: v2
+        env: prod
+    DateTime:
+      type: string
+      format: date-time
+      example: 2025-01-01T00:00:00.000Z
+    ResourceBasics:
+      type: object
+      required:
+        - id
+        - created_at
+        - updated_at
+      properties:
+        id:
+          $ref: "#/components/schemas/ID"
+          description: The object ID.
+        created_at:
+          $ref: "#/components/schemas/DateTime"
+          description: The time when the object was created in ISO 8601 format.
+        updated_at:
+          $ref: "#/components/schemas/DateTime"
+          description: The time when the object was last updated in ISO 8601 format.
+    SubscriptionStatus:
+      type: string
+      enum:
+        - unsubscribed
+        - wait_for_approval
+        - subscribed
+    DeveloperStatus:
+      type: string
+      description: |-
+        The status of the developer.
+        - pending: The user is pending approval.
+        - active: The user had been approved.
+      enum:
+        - pending
+        - active
+    Developer:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - created_at
+        - updated_at
+      properties:
+        id:
+          $ref: "#/components/schemas/ID"
+          description: Developer ID.
+        name:
+          type: string
+          description: Developer name.
+          example: dev one
+        status:
+          $ref: "#/components/schemas/DeveloperStatus"
+        last_active_at:
+          $ref: "#/components/schemas/DateTime"
+        created_at:
+          $ref: "#/components/schemas/DateTime"
+        updated_at:
+          $ref: "#/components/schemas/DateTime"
+    CreateDeveloperReq:
+      type: object
+      required:
+        - developer_id
+      properties:
+        developer_id:
+          $ref: "#/components/schemas/ID"
+    DCRProviderForDeveloper:
+      type: object
+      required:
+        - id
+        - name
+        - issuer
+      properties:
+        id:
+          $ref: "#/components/schemas/ID"
+        name:
+          type: string
+          description: The name of the Dynamic Client Registration (DCR) Provider.
+        issuer:
+          type: string
+          description: The issuer URL of the Authorization Server.
+    APIProduct:
+      description: The API product.
+      oneOf:
+        - title: Gateway API Product
+          type: object
+          allOf:
+            - type: object
+              required:
+                - type
+                - name
+                - auth
+                - status
+                - subscription_auto_approval
+                - can_view_unsubscribed
+                - visibility
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - gateway
+                  default: gateway
+                name:
+                  $ref: "#/components/schemas/Name"
+                  example: Weather Insights API
+                logo:
+                  type: string
+                  description: The base64-encoded logo image of the API product.
+                desc:
+                  type: string
+                  description: The description of the API product.
+                  example: The Weather Insights API provides real-time and historical weather data for any location worldwide.
+                labels:
+                  $ref: "#/components/schemas/LabelsMap"
+                auth:
+                  type: object
+                  description: The authentication configuration of the API product.
+                  additionalProperties: false
+                  minProperties: 1
+                  example:
+                    key-auth:
+                      header: apikey
+                      hide_credentials: false
+                      query: apikey
+                  properties:
+                    key-auth:
+                      type: object
+                      additionalProperties: false
+                      description: Key authentication configurations.
+                      properties:
+                        hide_credentials:
+                          type: boolean
+                          default: false
+                          description: "If true, do not pass the header or query string with key to upstream services."
+                        query:
+                          type: string
+                          default: apikey
+                          description: The query string to get the key from. Lower priority than header.
+                        header:
+                          type: string
+                          default: apikey
+                          description: The header to get the key from.
+                    basic-auth:
+                      type: object
+                      additionalProperties: false
+                      description: Basic authentication configurations.
+                      properties:
+                        hide_credentials:
+                          type: boolean
+                          default: false
+                          description: "If true, do not pass the header or query string with key to upstream services."
+                    dcr:
+                      type: object
+                      additionalProperties: false
+                      description: DCR authentication configurations.
+                      required:
+                        - dcr_provider_id
+                      properties:
+                        dcr_provider_id:
+                          $ref: "#/components/schemas/ID"
+                          description: ID of the DCR provider.
+                status:
+                  $ref: "#/components/schemas/APIProductStatus"
+                subscription_auto_approval:
+                  type: boolean
+                  default: false
+                  description: "If true, the subscription is automatically approved."
+                can_view_unsubscribed:
+                  type: boolean
+                  description: "If true, developers can view the unsubscribed API."
+                  default: true
+                visibility:
+                  $ref: "#/components/schemas/Visibility"
+                raw_openapis:
+                  type: array
+                  description: An array of raw OpenAPI specifications. It is only returned when getting an API product.
+                  items:
+                    type: string
+                    description: The raw OpenAPI specification of the API product.
+                    example: Raw OpenAPI spec
+            - $ref: "#/components/schemas/ResourceBasics"
+        - title: External API Product
+          type: object
+          allOf:
+            - allOf:
+                - type: object
+                  required:
+                    - name
+                    - type
+                    - status
+                    - visibility
+                  properties:
+                    type:
+                      type: string
+                      description: Type of API product.
+                      enum:
+                        - external
+                      default: external
+                    name:
+                      $ref: "#/components/schemas/Name"
+                    raw_openapis:
+                      type: array
+                      description: An array of raw OpenAPI specifications. It is only returned when getting an API product.
+                      items:
+                        type: string
+                        description: The raw OpenAPI specification of the API product.
+                        example: Raw OpenAPI spec
+                    status:
+                      $ref: "#/components/schemas/APIProductStatus"
+                    visibility:
+                      $ref: "#/components/schemas/Visibility"
+                - anyOf:
+                    - type: object
+                      required:
+                        - server_url
+                      properties:
+                        server_url:
+                          deprecated: true
+                          type: string
+                          minLength: 1
+                          maxLength: 4096
+                          description: The server URL. It should be configured if the server URL is not defined in the OpenAPI spec.
+                          example: "http://localhost:8080"
+                    - type: object
+                      required:
+                        - server_urls
+                      properties:
+                        server_urls:
+                          type: array
+                          minItems: 1
+                          items:
+                            type: string
+                            minLength: 1
+                            maxLength: 4096
+                          description: The server URLs. It should be configured if the server URLs are not defined in the OpenAPI spec.
+                          example:
+                            - "http://localhost:8080"
+                            - "http://localhost:8081"
+            - type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: string
+                desc:
+                  type: string
+                  description: Description.
+                api_desc:
+                  type: string
+                  description: API description.
+                api_count:
+                  type: number
+                  format: int64
+                  description: API count.
+                  example: 10
+            - $ref: "#/components/schemas/ResourceBasics"
+    DeveloperApplicationBasics:
+      description: The developer application response fields.
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          $ref: "#/components/schemas/Name"
+        desc:
+          $ref: "#/components/schemas/Description"
+        labels:
+          $ref: "#/components/schemas/LabelsMap"
+    DeveloperApplication:
+      description: The developer application.
+      allOf:
+        - $ref: "#/components/schemas/DeveloperApplicationBasics"
+        - $ref: "#/components/schemas/ResourceBasics"
+    DeveloperApplicationWithSubscriptionStatus:
+      description: The developer application with subscription status.
+      allOf:
+        - type: object
+          properties:
+            subscription_status:
+              description: |
+                Indicates the subscription status of the application for a specific api_product. 
+                It is only returned when it is necessary to check the subscription status of applications for a specific api_product.
+              $ref: "#/components/schemas/SubscriptionStatus"
+        - $ref: "#/components/schemas/DeveloperApplication"
+    CreateDeveloperApplicationReq:
+      description: Create an application request.
+      properties:
+        name:
+          $ref: "#/components/schemas/Name"
+        desc:
+          $ref: "#/components/schemas/Description"
+        labels:
+          $ref: "#/components/schemas/LabelsMap"
+    ApplicationCredentialBasicsCommon:
+      type: object
+      required:
+        - application_id
+        - application_name
+      properties:
+        application_id:
+          description: Application ID.
+          example: default
+          $ref: "#/components/schemas/ID"
+        application_name:
+          $ref: "#/components/schemas/Name"
+        desc:
+          $ref: "#/components/schemas/Description"
+        labels:
+          $ref: "#/components/schemas/LabelsMap"
+    ApplicationCredentialBasics:
+      description: The developer credential response.
+      type: object
+      oneOf:
+        - title: Key Auth
+          allOf:
+            - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
+            - type: object
+              required:
+                - name
+                - plugins
+              properties:
+                name:
+                  $ref: "#/components/schemas/Name"
+                plugins:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - key-auth
+                  properties:
+                    key-auth:
+                      type: object
+        - title: Basic Auth
+          allOf:
+            - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
+            - type: object
+              required:
+                - name
+                - plugins
+              properties:
+                name:
+                  $ref: "#/components/schemas/Name"
+                plugins:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - basic-auth
+                  properties:
+                    basic-auth:
+                      type: object
+        - title: OAuth
+          allOf:
+            - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
+            - type: object
+              required:
+                - oauth
+              properties:
+                oauth:
+                  type: object
+                  required:
+                    - dcr_provider_id
+                    - client_id
+                  properties:
+                    dcr_provider_id:
+                      type: string
+                      description: The DCR provider ID.
+                    dcr_provider:
+                      $ref: "#/components/schemas/DCRProviderForDeveloper"
+                    client_id:
+                      type: string
+                      description: The client ID.
+                    client_secret:
+                      type: string
+                      description: The client secret is only returned upon creation.
+                    redirect_uris:
+                      type: array
+                      description: The redirect URIs.
+                      items:
+                        type: string
+                        minLength: 1
+    ApplicationCredential:
+      description: The application credential.
+      allOf:
+        - $ref: "#/components/schemas/ApplicationCredentialBasics"
+        - $ref: "#/components/schemas/ResourceBasics"
+    CreateApplicationCredentialReqCommon:
+      type: object
+      properties:
+        desc:
+          $ref: "#/components/schemas/Description"
+        labels:
+          $ref: "#/components/schemas/LabelsMap"
+    CreateApplicationCredentialReq:
+      description: Create an application credential request.
+      type: object
+      oneOf:
+        - title: Key Auth
+          allOf:
+            - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
+            - type: object
+              required:
+                - name
+                - plugins
+              properties:
+                name:
+                  $ref: "#/components/schemas/Name"
+                plugins:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - key-auth
+                  properties:
+                    key-auth:
+                      type: object
+                      nullable: true
+                      additionalProperties: false
+        - title: Basic Auth
+          allOf:
+            - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
+            - type: object
+              required:
+                - name
+                - plugins
+              properties:
+                name:
+                  $ref: "#/components/schemas/Name"
+                plugins:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - basic-auth
+                  properties:
+                    basic-auth:
+                      type: object
+                      additionalProperties: false
+                      required:
+                        - username
+                        - password
+                      properties:
+                        username:
+                          type: string
+                          description: Username.
+                        password:
+                          type: string
+                          description: User password.
+        - title: OAuth
+          allOf:
+            - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
+            - type: object
+              required:
+                - oauth
+              properties:
+                oauth:
+                  type: object
+                  required:
+                    - dcr_provider_id
+                  properties:
+                    dcr_provider_id:
+                      type: string
+                      description: The DCR provider ID.
+                    redirect_uris:
+                      type: array
+                      description: The redirect URIs.
+                      items:
+                        type: string
+                        minLength: 1
+    UpdateApplicationCredentialReq:
+      description: Update an application credential request.
+      type: object
+      oneOf:
+        - title: Key Auth Or Basic Auth
+          required:
+            - name
+          additionalProperties: false
+          properties:
+            name:
+              $ref: "#/components/schemas/Name"
+            desc:
+              $ref: "#/components/schemas/Description"
+            labels:
+              $ref: "#/components/schemas/LabelsMap"
+        - title: OAuth
+          required:
+            - oauth
+          additionalProperties: false
+          properties:
+            desc:
+              $ref: "#/components/schemas/Description"
+            labels:
+              $ref: "#/components/schemas/LabelsMap"
+            oauth:
+              type: object
+              additionalProperties: false
+              properties:
+                redirect_uris:
+                  type: array
+                  description: The redirect URIs.
+                  items:
+                    type: string
+                    minLength: 1
+    RegenerateApplicationCredentialReq:
+      description: Regenerate an application credential request.
+      type: object
+      maxProperties: 1
+      minProperties: 1
+      additionalProperties: false
+      properties:
+        key-auth:
+          type: object
+          nullable: true
+          additionalProperties: false
+        basic-auth:
+          type: object
+          additionalProperties: false
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+              description: Username.
+            password:
+              type: string
+              description: User password.
+    Subscription:
+      type: object
+      required:
+        - id
+        - developer_id
+        - developer_name
+        - subscribed_at
+        - application_id
+        - application_name
+        - api_product_id
+        - api_product_name
+        - status
+      properties:
+        id:
+          type: string
+          description: The ID of the subscription.
+        developer_id:
+          type: string
+        developer_name:
+          type: string
+        subscribed_at:
+          $ref: "#/components/schemas/DateTime"
+        application_id:
+          $ref: "#/components/schemas/ID"
+        application_name:
+          $ref: "#/components/schemas/Name"
+        api_product_id:
+          $ref: "#/components/schemas/ID"
+        api_product_name:
+          $ref: "#/components/schemas/Name"
+        status:
+          $ref: "#/components/schemas/SubscriptionStatus"
+    CreateAPIProductSubscriptionReq:
+      description: The request body for creating a subscription.
+      type: object
+      properties:
+        application_id:
+          description: Application ID.
+          $ref: "#/components/schemas/ID"
+      required:
+        - application_id
+    CreateSubscriptionReq:
+      description: The request body for creating subscriptions.
+      type: object
+      properties:
+        applications:
+          type: array
+          minItems: 1
+          items:
+            description: The applications ids
+            $ref: "#/components/schemas/ID"
+        api_products:
+          type: array
+          minItems: 1
+          items:
+            description: The api products ids
+            $ref: "#/components/schemas/ID"
+      required:
+        - applications
+        - api_products
+    AllLabels:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      example:
+        k8s/namespace:
+          - api7-ingress-system
+          - default
+          - api7
+        manager-by:
+          - api7-ingress-controller
+          - apisix-ingress-controller
+    PortalPublicAccess:
+      type: object
+      additionalProperties: false
+      required:
+        - portal_public_access
+      properties:
+        portal_public_access:
+          type: boolean
+          description: "If true, allow public access to the developer portal."
+    SMTPServerSettingsStatus:
+      type: object
+      required:
+        - enable
+      properties:
+        enable:
+          type: boolean
+          description: Enable SMTP Server.
+    APICall:
+      type: object
+      required:
+        - api_product_id
+        - api_product_name
+        - hour_timestamp
+        - api_calls
+      properties:
+        api_product_id:
+          $ref: "#/components/schemas/ID"
+        api_product_name:
+          $ref: "#/components/schemas/Name"
+        hour_timestamp:
+          $ref: "#/components/schemas/DateTime"
+          description: The hour timestamp in ISO 8601 format.
+        api_calls:
+          type: integer
+          description: The number of API calls.
+    APIProductWithSubscriptionStatus:
+      description: The API product with subscription status.
+      allOf:
+        - $ref: "#/components/schemas/APIProduct"
+        - type: object
+          properties:
+            subscription_status:
+              $ref: "#/components/schemas/SubscriptionStatus"
+    Visibility:
+      type: string
+      enum:
+        - public
+        - logged_in
+      default: public
+      description: The visibility of the API product in the API hub. `public` means the product is visible to all users and `logged_in` means the product is only visible to logged-in developers.
+    APIProductStatus:
+      type: string
+      description: Status of the API product.
+      enum:
+        - draft
+        - published
+      default: draft
+  parameters:
+    Page:
+      name: page
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+      description: "Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page."
+      in: query
+    PageSize:
+      name: page_size
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+      description: "Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page."
+      in: query
+    Direction:
+      name: direction
+      schema:
+        type: string
+        enum:
+          - asc
+          - desc
+        default: desc
+      description: Order to list the resources by. The sorting index follows the configuration of `order_by`.
+      in: query
+    OrderBy:
+      name: order_by
+      in: query
+      description: Index to order resources by.
+      schema:
+        type: string
+        default: updated_at
+        enum:
+          - created_at
+          - updated_at
+        description: "Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`."
+    Search:
+      name: search
+      in: query
+      schema:
+        type: string
+      description: Condition to search resources by.
+      example: version%3Dv2
+    SubscriptionsOrderBy:
+      name: order_by
+      in: query
+      schema:
+        type: string
+        default: subscribed_at
+        enum:
+          - developer_name
+          - subscribed_at
+    ApplicationID:
+      name: application_id
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ID"
+        default: default
+    ApplicationIDInQuery:
+      name: application_id
+      in: query
+      required: false
+      schema:
+        $ref: "#/components/schemas/ID"
+    ApplicationsIDs:
+      name: application_id
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/ID"
+    DeveloperCredentialID:
+      name: credential_id
+      description: The unique identifier of the developer credential.
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ID"
+    AuthMethod:
+      name: auth_method
+      description: The authentication method of the developer credential.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - key-auth
+          - basic-auth
+          - oauth
+    DeveloperCredentialPluginName:
+      name: plugin_name
+      description: "The plugin name of the developer credential, recommended to use `auth_method` instead."
+      in: query
+      required: false
+      deprecated: true
+      schema:
+        $ref: "#/components/schemas/Name"
+    CredentialOrderBy:
+      name: order_by
+      in: query
+      description: Index to order credentials by.
+      schema:
+        type: string
+        default: updated_at
+        enum:
+          - created_at
+          - updated_at
+          - name
+    APIProductSubscriptionStatus:
+      name: subscription_status
+      in: query
+      schema:
+        $ref: "#/components/schemas/SubscriptionStatus"
+    SubscriptionStatusInQuery:
+      name: status
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/SubscriptionStatus"
+    DeveloperOrderBy:
+      name: order_by
+      in: query
+      description: Index to order developers by.
+      schema:
+        type: string
+        default: last_active_at
+        enum:
+          - last_active_at
+          - created_at
+    DeveloperID:
+      name: developer_id
+      in: path
+      required: true
+      description: Developer ID.
+      schema:
+        type: string
+    StartAt:
+      in: query
+      name: start_at
+      required: true
+      schema:
+        type: integer
+    EndAt:
+      in: query
+      required: true
+      name: end_at
+      schema:
+        type: integer
+    APIProductID:
+      name: api_product_id
+      description: The unique identifier of the API product.
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ID"
+    APIProductIDInQuery:
+      name: api_product_id
+      description: The API product ID.
+      in: query
+      required: false
+      schema:
+        $ref: "#/components/schemas/ID"
+    APIProductIDs:
+      name: api_product_id
+      description: The API product IDs.
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/ID"
+    APIProductServiceIDInQuery:
+      name: service_id
+      description: The unique identifier of the service in the API product.
+      in: query
+      required: true
+      schema:
+        $ref: "#/components/schemas/ID"
+    SubscriptionID:
+      name: subscription_id
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ID"
+    CredentialIDs:
+      name: credential_id
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/ID"
+    LabelsMapInQuery:
+      name: labels
+      in: query
+      required: false
+      description: "Label(s) to filter resources by. The format is `labels[key]=value` and should be URL-encoded."
+      schema:
+        type: string
+        minLength: 1
+        example: labels%5Bversion%5D=v2
+    DeveloperPortalLabelResourceType:
+      name: resource_type
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+          - developer_credential
+          - developer_application
+          - api_product
+  responses:
+    response200:
+      description: The operation was successful.
+    response201:
+      description: The resource was created successfully.
+    response204:
+      description: The resource was deleted successfully.
+    response400:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+            properties:
+              status:
+                type: integer
+                description: The HTTP status code of the error response.
+                example: 400
+              message:
+                type: string
+                description: The error message.
+                example: error message
+    response401:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+            properties:
+              status:
+                type: integer
+                description: The HTTP status code of the error response.
+                example: 401
+              message:
+                type: string
+                description: The error message.
+                example: unauthorized
+    response404:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+            properties:
+              status:
+                type: integer
+                description: The HTTP status code of the error response.
+                example: 404
+              message:
+                type: string
+                description: The error message.
+                example: resource not found
+    response500:
+      description: Internal server error.
+    DeveloperApplicationResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DeveloperApplication"
+    ListDeveloperApplicationResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of developer applications.
+                items:
+                  $ref: "#/components/schemas/DeveloperApplicationWithSubscriptionStatus"
+              total:
+                $ref: "#/components/schemas/Total"
+    ApplicationCredentialResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApplicationCredential"
+    ListApplicationCredentialResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of application credentials.
+                items:
+                  $ref: "#/components/schemas/ApplicationCredential"
+              total:
+                $ref: "#/components/schemas/Total"
+    APIProductResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIProductWithSubscriptionStatus"
+    ListAPIProductResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of API products.
+                items:
+                  $ref: "#/components/schemas/APIProductWithSubscriptionStatus"
+              total:
+                $ref: "#/components/schemas/Total"
+    ListDCRProviderResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of DCR providers.
+                items:
+                  $ref: "#/components/schemas/DCRProviderForDeveloper"
+              total:
+                $ref: "#/components/schemas/Total"
+    ListSubscriptionResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of subscriptions.
+                items:
+                  $ref: "#/components/schemas/Subscription"
+              total:
+                $ref: "#/components/schemas/Total"
+    DeveloperResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Developer"
+    ListDeveloperResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of developers.
+                items:
+                  $ref: "#/components/schemas/Developer"
+              total:
+                $ref: "#/components/schemas/Total"
+    ListAPICallResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of API calls.
+                items:
+                  $ref: "#/components/schemas/APICall"
+              total:
+                $ref: "#/components/schemas/Total"
+    ListLabelResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AllLabels"
+    SMTPServerSettingsStatusResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SMTPServerSettingsStatus"
+    PortalPublicAccessResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PortalPublicAccess"

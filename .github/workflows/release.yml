@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      projects:
+        description: "Comma-separated list of projects to release"
+        required: true
+        type: string
+      dry-run:
+        description: "Run in dry-run mode"
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to push release commits
+      id-token: write # to authenticate with npm
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          filter: tree:0
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: latest
+          run_install: false
+
+      - name: Install Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        shell: bash
+
+      - name: Print Environment Info
+        run: pnpm nx report
+        shell: bash
+
+      - name: Check version plan
+        run: pnpm nx release plan:check
+        shell: bash
+
+      - name: Set git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        shell: bash
+
+      - name: Release packages
+        run: pnpm nx release ${{ format('--projects={0}', github.event.inputs.projects) }} ${{ github.event.inputs.dry-run == 'true' && '--dry-run' || '' }} --yes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org
+          NPM_CONFIG_PROVENANCE: true
