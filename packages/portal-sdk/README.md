@@ -30,6 +30,8 @@ const client = new API7Portal({
 
 ### Client-side (Browser)
 
+This pattern is used to send requests to a BFF on the same origin within the browser. Authentication and Developer ID injection should occur within the BFF, so you do not need to configure authentication here.
+
 ```typescript
 import { API7Portal } from '@api7/portal-sdk/browser'
 
