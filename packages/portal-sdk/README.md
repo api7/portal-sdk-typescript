@@ -14,13 +14,25 @@ This package supports both ESM and CJS, and you can use it in browsers and Node.
 
 ## Configure
 
+### Server-side (Node.js/Serverless/Edge)
+
 ```typescript
 import { API7Portal } from '@api7/portal-sdk'
 
-const client = new API7Portal(
-  'https://portal.example.com',
-  'a7prt-...' // Your API token here
-);
+const client = new API7Portal({
+  endpoint: 'https://portal.example.com',
+  token: 'a7prt-...',
+  getDeveloperId: async () => await getDeveloperIdFromSession(),
+});
+```
+
+### Client-side (Browser)
+
+```typescript
+import { API7Portal } from '@api7/portal-sdk'
+
+// request the API exposed on current page's window.origin
+const client = new API7Portal();
 ```
 
 ## Usage
