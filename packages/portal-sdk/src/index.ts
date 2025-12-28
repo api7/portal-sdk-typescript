@@ -39,8 +39,15 @@ export class API7Portal {
 
     instance.interceptors.request.use(async (config) => {
       config.headers = config.headers ?? {};
-      if (opts.getDeveloperId)
-        config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
+
+      if (opts.getDeveloperId) {
+        try {
+          config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
+        } catch (err) {
+          return Promise.reject(err);
+        }
+      }
+
       return config;
     });
 

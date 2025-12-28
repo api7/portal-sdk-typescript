@@ -162,6 +162,7 @@ export class CredentialAPI {
    * List all credentials.
    * @param query The query parameters.
    * @returns The list of credentials.
+   * @throws {APIError} If the API request fails or network error occurs.
    */
   public async list(
     query: ListCredentialsData['query'],
