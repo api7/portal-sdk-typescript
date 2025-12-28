@@ -1,13 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-export const attachDeveloperIdHeader = (
-  id: string,
-  headers?: Record<string, string>
-) => ({
-  ...headers,
-  'X-Portal-Developer-ID': id,
-});
-
 type ResponseNormal<TData> = AxiosResponse<TData> & { error: undefined };
 type ResponseAbnormal<TError> = AxiosError<TError> & {
   data: undefined;
@@ -23,7 +15,7 @@ export class APIError extends Error {
     public status: number,
     public method: string,
     public url: string,
-    raw: AxiosError
+    raw: AxiosError,
   ) {
     super(message);
     this.stack = undefined;
@@ -45,7 +37,7 @@ export class APIError extends Error {
       error.status ?? 0,
       error.config?.method?.toUpperCase() ?? '',
       error.config?.url ?? '',
-      error
+      error,
     );
   };
 
@@ -67,7 +59,7 @@ export class APIError extends Error {
 }
 
 export const transformResponse = <TData, TError>(
-  resp: Response<TData, TError>
+  resp: Response<TData, TError>,
 ) => {
   if (resp.error || (resp.status && resp.status >= 400))
     throw APIError.fromAxiosError(resp as ResponseAbnormal<TError>);

@@ -1,9 +1,11 @@
 {
   "name": "@api7/portal-sdk",
+  "description": "API7 Portal JavaScript SDK",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "repository": {
-    "url": "https://github.com/api7/portal-sdk-typescript"
+    "url": "https://github.com/api7/portal-sdk-typescript",
+    "directory": "packages/portal-sdk"
   },
   "type": "module",
   "main": "./dist/index.js",

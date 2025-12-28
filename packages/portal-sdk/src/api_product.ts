@@ -6,6 +6,7 @@ import {
   type ListApiProductsData,
   type ListApiProductsResponses,
   ApiProduct,
+  CreateApiProductSubscriptionReq,
 } from './generated/index.js';
 import { transformResponse } from './utils.js';
 
@@ -14,14 +15,15 @@ export class APIProductAPI {
 
   /**
    * List all API products.
+   * @param query The query parameters.
    * @returns The list of API products.
    * @throws {APIError} If the API request fails or network error occurs.
    */
   public async list(
-    query?: ListApiProductsData['query']
+    query?: ListApiProductsData['query'],
   ): Promise<ListApiProductsResponses['200']> {
     return transformResponse(
-      await listApiProducts({ client: this.client, query })
+      await listApiProducts({ client: this.client, query }),
     );
   }
 
@@ -36,21 +38,26 @@ export class APIProductAPI {
       await getApiProduct({
         client: this.client,
         path: { api_product_id: id },
-      })
+      }),
     );
   }
 
   /**
    * Subscribe to an API product by ID.
    * @param id The API product ID.
+   * @param data The subscription data.
    * @throws {APIError} If the API request fails or network error occurs.
    */
-  public async subscribe(id: string): Promise<void> {
+  public async subscribe(
+    id: string,
+    data: CreateApiProductSubscriptionReq,
+  ): Promise<void> {
     transformResponse(
       await createApiProductSubscription({
         client: this.client,
         path: { api_product_id: id },
-      })
+        body: data,
+      }),
     );
   }
 }

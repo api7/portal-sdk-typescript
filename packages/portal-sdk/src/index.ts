@@ -7,11 +7,17 @@ import {
   SystemSettingAPI,
 } from './miscellaneous.js';
 import { DeveloperAPI } from './developer.js';
-import { createClient } from './generated/client/client.gen.js';
 import { APIProductAPI } from './api_product.js';
 import { SubscriptionAPI } from './subscription.js';
+import { createClient } from './generated/client/index.js';
 
 export { APIError } from './utils.js';
+
+export type Options = {
+  endpoint?: string;
+  token?: string;
+  getDeveloperId?: () => Promise<string>;
+};
 
 export class API7Portal {
   public readonly apiProduct: APIProductAPI;
@@ -23,13 +29,22 @@ export class API7Portal {
   public readonly subscription: SubscriptionAPI;
   public readonly systemSetting: SystemSettingAPI;
 
-  constructor(endpoint: string, token: string) {
-    const client = createClient({
-      axios: axios.create({
-        baseURL: endpoint,
-        headers: { 'X-Portal-TOKEN': `${token}` },
-      }),
+  constructor(opts: Options = {}) {
+    const instance = axios.create({
+      baseURL: opts.endpoint,
+      ...(opts.token
+        ? { headers: { Authorization: `Bearer ${opts.token}` } }
+        : undefined),
     });
+
+    instance.interceptors.request.use(async (config) => {
+      config.headers = config.headers ?? {};
+      if (opts.getDeveloperId)
+        config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
+      return config;
+    });
+
+    const client = createClient({ axios: instance });
     this.apiProduct = new APIProductAPI(client);
     this.application = new ApplicationAPI(client);
     this.credential = new CredentialAPI(client);

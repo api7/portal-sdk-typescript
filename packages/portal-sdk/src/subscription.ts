@@ -19,20 +19,23 @@ export class SubscriptionAPI {
    * @throws {APIError} If the API request fails or network error occurs.
    */
   public async list(
-    query?: ListSubscriptionsData['query']
+    query?: ListSubscriptionsData['query'],
   ): Promise<ListSubscriptionsResponses['200']> {
     return transformResponse(
-      await listSubscriptions({ client: this.client, query })
+      await listSubscriptions({ client: this.client, query }),
     );
   }
 
   /**
    * Bulk subscribe to products
+   * @param data The subscription data.
    * @returns The created subscription.
    * @throws {APIError} If the API request fails or network error occurs.
    */
   public async bulkSubscribe(data: CreateSubscriptionReq): Promise<void> {
-    transformResponse(await createSubscription({ client: this.client, data }));
+    transformResponse(
+      await createSubscription({ client: this.client, body: data }),
+    );
   }
 
   /**
@@ -46,7 +49,7 @@ export class SubscriptionAPI {
       await deleteSubscription({
         client: this.client,
         path: { subscription_id: id },
-      })
+      }),
     );
   }
 }
