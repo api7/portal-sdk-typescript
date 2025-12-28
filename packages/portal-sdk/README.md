@@ -56,7 +56,7 @@ console.log(apps);
 It is used to design and build the BFF, which enables lightweight API reverse proxies on the server to inject additional fields when forwarding requests to backend services.
 
 ```typescript
-const response = await client.proxy({
+const resp = await client.proxy({
   method: clientReq.method,
   url: clientReq.url,
   headers: clientReq.headers,
