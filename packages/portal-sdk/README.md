@@ -14,7 +14,9 @@ This package supports both ESM and CJS, and you can use it in browsers and Node.
 
 ## Configure
 
-### Server-side (Node.js/Serverless/Edge)
+### Server-side (Node.js/Serverless/Edge-functions)
+
+Call APIs in the backend or build a BFF.
 
 ```typescript
 import { API7Portal } from '@api7/portal-sdk'
@@ -29,7 +31,7 @@ const client = new API7Portal({
 ### Client-side (Browser)
 
 ```typescript
-import { API7Portal } from '@api7/portal-sdk'
+import { API7Portal } from '@api7/portal-sdk/browser'
 
 // request the API exposed on current page's window.origin
 const client = new API7Portal();
@@ -37,11 +39,29 @@ const client = new API7Portal();
 
 ## Usage
 
-Access API by following way:
+### Access the API programmatically
 
 ```typescript
 const apps = await client.apiProduct.list();
 console.log(apps);
+```
+
+### Proxy requests through SDK
+
+> [!IMPORTANT]
+> This applies only to the Server-side SDK.
+>
+> I.e., using the SDK imported via `import { API7Portal } from '@api7/portal-sdk'`.
+
+It is used to design and build the BFF, which enables lightweight API reverse proxies on the server to inject additional fields when forwarding requests to backend services.
+
+```typescript
+const response = await client.proxy({
+  method: clientReq.method,
+  url: clientReq.url,
+  headers: clientReq.headers,
+  data: clientReq.body,
+});
 ```
 
 ## Error Handling
