@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { ApplicationAPI } from './application.js';
 import { CredentialAPI } from './credential.js';
 import {
@@ -14,9 +14,7 @@ import { createClient } from './generated/client/index.js';
 export { APIError } from './utils.js';
 
 export type Options = {
-  endpoint: string;
-  token: string;
-  getDeveloperId: () => Promise<string>;
+  endpoint?: string;
 };
 
 export class API7Portal {
@@ -28,25 +26,11 @@ export class API7Portal {
   public readonly misc: MiscellaneousAPI;
   public readonly subscription: SubscriptionAPI;
   public readonly systemSetting: SystemSettingAPI;
-  public readonly proxy: (req: AxiosRequestConfig) => Promise<AxiosResponse>;
 
-  constructor(opts: Options) {
-    const instance = axios.create({
-      baseURL: opts.endpoint,
-      headers: { Authorization: `Bearer ${opts.token}` },
+  constructor(opts?: Options) {
+    const client = createClient({
+      axios: axios.create({ baseURL: opts?.endpoint }),
     });
-
-    instance.interceptors.request.use(async (config) => {
-      config.headers = config.headers ?? {};
-      try {
-        config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
-      } catch (err) {
-        return Promise.reject(err);
-      }
-      return config;
-    });
-
-    const client = createClient({ axios: instance });
     this.apiProduct = new APIProductAPI(client);
     this.application = new ApplicationAPI(client);
     this.credential = new CredentialAPI(client);
@@ -55,6 +39,5 @@ export class API7Portal {
     this.misc = new MiscellaneousAPI(client);
     this.subscription = new SubscriptionAPI(client);
     this.systemSetting = new SystemSettingAPI(client);
-    this.proxy = (req: AxiosRequestConfig) => instance.request(req);
   }
 }

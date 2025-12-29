@@ -1,9 +1,11 @@
 {
   "name": "@api7/portal-sdk",
+  "description": "API7 Portal JavaScript SDK",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "repository": {
-    "url": "https://github.com/api7/portal-sdk-typescript"
+    "url": "https://github.com/api7/portal-sdk-typescript",
+    "directory": "packages/portal-sdk"
   },
   "type": "module",
   "main": "./dist/index.js",
@@ -16,6 +18,12 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js",
+      "require": "./dist/browser.cjs",
+      "default": "./dist/browser.js"
     }
   },
   "files": [

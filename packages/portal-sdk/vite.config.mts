@@ -20,9 +20,11 @@ export default defineConfig(() => ({
       transformMixedEsModules: true,
     },
     lib: {
-      entry: 'src/index.ts',
+      entry: {
+        index: 'src/index.ts',
+        browser: 'src/browser.ts',
+      },
       name: '@api7/portal-sdk',
-      fileName: 'index',
       formats: ['es' as const, 'cjs' as const],
     },
     rollupOptions: {

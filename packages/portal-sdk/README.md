@@ -14,22 +14,56 @@ This package supports both ESM and CJS, and you can use it in browsers and Node.
 
 ## Configure
 
+### Server-side (Node.js/Serverless/Edge-functions)
+
+Call APIs in the backend or build a BFF.
+
 ```typescript
 import { API7Portal } from '@api7/portal-sdk'
 
-const client = new API7Portal(
-  'https://portal.example.com',
-  'a7prt-...' // Your API token here
-);
+const client = new API7Portal({
+  endpoint: 'https://portal.example.com',
+  token: 'a7prt-...',
+  getDeveloperId: async () => await getDeveloperIdFromSession(),
+});
+```
+
+### Client-side (Browser)
+
+This pattern is used to send requests to a BFF on the same origin within the browser. Authentication and Developer ID injection should occur within the BFF, so you do not need to configure authentication here.
+
+```typescript
+import { API7Portal } from '@api7/portal-sdk/browser'
+
+// request the API exposed on current page's window.origin
+const client = new API7Portal();
 ```
 
 ## Usage
 
-Access API by following way:
+### Access the API programmatically
 
 ```typescript
 const apps = await client.apiProduct.list();
 console.log(apps);
+```
+
+### Proxy requests through SDK
+
+> [!IMPORTANT]
+> This applies only to the Server-side SDK.
+>
+> I.e., using the SDK imported via `import { API7Portal } from '@api7/portal-sdk'`.
+
+It is used to design and build the BFF, which enables lightweight API reverse proxies on the server to inject additional fields when forwarding requests to backend services.
+
+```typescript
+const resp = await client.proxy({
+  method: clientReq.method,
+  url: clientReq.url,
+  headers: clientReq.headers,
+  data: clientReq.body,
+});
 ```
 
 ## Error Handling
