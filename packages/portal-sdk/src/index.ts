@@ -35,15 +35,23 @@ export class API7Portal {
   constructor(opts: Options) {
     const instance = opts.axios ?? axios.create();
 
-    instance.defaults.baseURL = opts.endpoint;
+    if (!instance.defaults?.baseURL) instance.defaults.baseURL = opts.endpoint;
     instance.interceptors.request.use(async (config) => {
       config.headers = config.headers ?? {};
-      config.headers['Authorization'] = `Bearer ${opts.token}`;
-      try {
-        config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
-      } catch (err) {
-        return Promise.reject(err);
+
+      const AUTHORIZATION_HEADER = 'Authorization';
+      if (!config.headers[AUTHORIZATION_HEADER])
+        config.headers[AUTHORIZATION_HEADER] = `Bearer ${opts.token}`;
+
+      const DEVELOPER_ID_HEADER = 'X-Portal-Developer-ID';
+      if (!config.headers[DEVELOPER_ID_HEADER]) {
+        try {
+          config.headers[DEVELOPER_ID_HEADER] = await opts.getDeveloperId();
+        } catch (err) {
+          return Promise.reject(err);
+        }
       }
+
       return config;
     });
 
