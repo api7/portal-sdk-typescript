@@ -3,6 +3,7 @@ export {
   type CreateApiProductSubscriptionReq,
   type ListApiProductsData,
   type ListApiProductsResponses,
+  type CreateDeveloperApplicationReq,
   type DeveloperApplication,
   type GetApiCallsData,
   type GetApiCallsResponses,

@@ -23,7 +23,7 @@ export default defineConfig(() => ({
       entry: {
         index: 'src/index.ts',
         browser: 'src/browser.ts',
-        unstable_types: 'src/unstable/typing.ts',
+        'unstable-types': 'src/unstable/typing.ts',
       },
       name: '@api7/portal-sdk',
       formats: ['es' as const, 'cjs' as const],

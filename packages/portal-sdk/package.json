@@ -25,7 +25,7 @@
       "require": "./dist/browser.cjs",
       "default": "./dist/browser.js"
     },
-    "./unstable_types": {
+    "./unstable-types": {
       "types": "./dist/unstable/typing.d.ts"
     }
   },
