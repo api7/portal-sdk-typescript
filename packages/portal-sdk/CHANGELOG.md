@@ -1,3 +1,9 @@
+## 0.0.2 (2025-12-29)
+
+### 🩹 Fixes
+
+- feat(portal-sdk): introduce browser-specific exports ([#1](https://github.com/api7/portal-sdk-typescript/pull/1))
+
 ## 0.0.1 (2025-12-26)
 
 ### 🩹 Fixes
