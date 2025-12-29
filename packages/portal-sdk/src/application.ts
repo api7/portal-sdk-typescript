@@ -1,20 +1,19 @@
-import {
-  createDeveloperApplication,
-  CreateDeveloperApplicationReq,
-  deleteDeveloperApplication,
-  DeveloperApplication,
-  getDeveloperApplication,
-  listDeveloperApplications,
-  ListDeveloperApplicationsData,
-  ListDeveloperApplicationsResponses,
-  updateDeveloperApplication,
-  getApiCalls,
-  GetApiCallsData,
-  GetApiCallsResponses,
-} from './generated/index.js';
-
 import { ApplicationCredentialAPI } from './credential.js';
 import { Client } from './generated/client/types.gen.js';
+import {
+  type CreateDeveloperApplicationReq,
+  type DeveloperApplication,
+  type GetApiCallsData,
+  type GetApiCallsResponses,
+  type ListDeveloperApplicationsData,
+  type ListDeveloperApplicationsResponses,
+  createDeveloperApplication,
+  deleteDeveloperApplication,
+  getApiCalls,
+  getDeveloperApplication,
+  listDeveloperApplications,
+  updateDeveloperApplication,
+} from './generated/index.js';
 import { transformResponse } from './utils.js';
 
 export class ApplicationAPI {

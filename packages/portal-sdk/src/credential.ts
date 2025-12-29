@@ -1,21 +1,21 @@
-import {
-  createDeveloperCredential,
-  getDeveloperCredential,
-  listDeveloperCredentials,
-  upsertDeveloperCredential,
-  deleteDeveloperCredential,
-  CreateApplicationCredentialReq,
-  UpdateApplicationCredentialReq,
-  RegenerateApplicationCredentialReq,
-  regenerateDeveloperCredential,
-  listCredentials,
-  ApplicationCredential,
-  ListDeveloperCredentialsResponses,
-  ListDeveloperCredentialsData,
-  ListCredentialsResponses,
-  ListCredentialsData,
-} from './generated/index.js';
 import { Client } from './generated/client/types.gen.js';
+import {
+  type ApplicationCredential,
+  type CreateApplicationCredentialReq,
+  type ListCredentialsData,
+  type ListCredentialsResponses,
+  type ListDeveloperCredentialsData,
+  type ListDeveloperCredentialsResponses,
+  type RegenerateApplicationCredentialReq,
+  type UpdateApplicationCredentialReq,
+  createDeveloperCredential,
+  deleteDeveloperCredential,
+  getDeveloperCredential,
+  listCredentials,
+  listDeveloperCredentials,
+  regenerateDeveloperCredential,
+  upsertDeveloperCredential,
+} from './generated/index.js';
 import { transformResponse } from './utils.js';
 
 export class ApplicationCredentialAPI {

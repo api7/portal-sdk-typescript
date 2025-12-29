@@ -1,12 +1,12 @@
 import { Client } from './generated/client/types.gen.js';
 import {
-  getApiProduct,
-  listApiProducts,
-  createApiProductSubscription,
+  type ApiProduct,
+  type CreateApiProductSubscriptionReq,
   type ListApiProductsData,
   type ListApiProductsResponses,
-  ApiProduct,
-  CreateApiProductSubscriptionReq,
+  createApiProductSubscription,
+  getApiProduct,
+  listApiProducts,
 } from './generated/index.js';
 import { transformResponse } from './utils.js';
 
