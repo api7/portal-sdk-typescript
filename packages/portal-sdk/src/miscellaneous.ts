@@ -1,13 +1,13 @@
-import {
-  listDcrProviders,
-  getPublicAccessSettings,
-  listLabels,
-  DeveloperPortalLabelResourceType,
-  AllLabels,
-  ListDcrProvidersData,
-  ListDcrProvidersResponses,
-} from './generated/index.js';
 import { Client } from './generated/client/types.gen.js';
+import {
+  type AllLabels,
+  type DeveloperPortalLabelResourceType,
+  type ListDcrProvidersData,
+  type ListDcrProvidersResponses,
+  getPublicAccessSettings,
+  listDcrProviders,
+  listLabels,
+} from './generated/index.js';
 import { transformResponse } from './utils.js';
 
 export class DCRProviderAPI {
@@ -19,10 +19,10 @@ export class DCRProviderAPI {
    * @throws {APIError} If the API request fails or network error occurs.
    */
   public async list(
-    query?: ListDcrProvidersData['query']
+    query?: ListDcrProvidersData['query'],
   ): Promise<ListDcrProvidersResponses['200']> {
     return transformResponse(
-      await listDcrProviders({ client: this.client, query })
+      await listDcrProviders({ client: this.client, query }),
     );
   }
 }
@@ -37,7 +37,7 @@ export class SystemSettingAPI {
    */
   public async getPublicAccess(): Promise<boolean> {
     return transformResponse(
-      await getPublicAccessSettings({ client: this.client })
+      await getPublicAccessSettings({ client: this.client }),
     ).portal_public_access as boolean;
   }
 }
@@ -52,10 +52,10 @@ export class MiscellaneousAPI {
    * @throws {APIError} If the API request fails or network error occurs.
    */
   public async listLabels(
-    type: DeveloperPortalLabelResourceType
+    type: DeveloperPortalLabelResourceType,
   ): Promise<AllLabels> {
     return transformResponse(
-      await listLabels({ client: this.client, path: { resource_type: type } })
+      await listLabels({ client: this.client, path: { resource_type: type } }),
     );
   }
 }

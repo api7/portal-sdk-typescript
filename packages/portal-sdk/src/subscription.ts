@@ -1,12 +1,12 @@
+import { Client } from './generated/client/types.gen.js';
 import {
+  type CreateSubscriptionReq,
+  type ListSubscriptionsData,
+  type ListSubscriptionsResponses,
   createSubscription,
-  CreateSubscriptionReq,
   deleteSubscription,
   listSubscriptions,
-  ListSubscriptionsData,
-  ListSubscriptionsResponses,
 } from './generated/index.js';
-import { Client } from './generated/client/types.gen.js';
 import { transformResponse } from './utils.js';
 
 export class SubscriptionAPI {
