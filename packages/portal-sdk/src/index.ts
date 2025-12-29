@@ -33,15 +33,11 @@ export class API7Portal {
   public readonly proxy: (req: AxiosRequestConfig) => Promise<AxiosResponse>;
 
   constructor(opts: Options) {
-    const instance =
-      opts.axios ??
-      axios.create({
-        baseURL: opts.endpoint,
-        headers: { Authorization: `Bearer ${opts.token}` },
-      });
+    const instance = opts.axios ?? axios.create({ baseURL: opts.endpoint });
 
     instance.interceptors.request.use(async (config) => {
       config.headers = config.headers ?? {};
+      config.headers['Authorization'] = `Bearer ${opts.token}`;
       try {
         config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
       } catch (err) {
