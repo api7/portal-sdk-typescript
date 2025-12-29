@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { ApplicationAPI } from './application.js';
 import { CredentialAPI } from './credential.js';
 import {
@@ -14,6 +14,8 @@ import { createClient } from './generated/client/index.js';
 export { APIError } from './utils.js';
 
 export type Options = {
+  axios?: AxiosInstance;
+
   endpoint?: string;
 };
 
@@ -29,7 +31,7 @@ export class API7Portal {
 
   constructor(opts?: Options) {
     const client = createClient({
-      axios: axios.create({ baseURL: opts?.endpoint }),
+      axios: opts?.axios ?? axios.create({ baseURL: opts?.endpoint }),
     });
     this.apiProduct = new APIProductAPI(client);
     this.application = new ApplicationAPI(client);
