@@ -1,3 +1,10 @@
+## 0.0.3 (2025-12-30)
+
+### 🩹 Fixes
+
+- feat(portal-sdk): export unstable types ([#3](https://github.com/api7/portal-sdk-typescript/pull/3))
+- feat(portal-sdk): allow custom axios instance ([#4](https://github.com/api7/portal-sdk-typescript/pull/4))
+
 ## 0.0.2 (2025-12-29)
 
 ### 🩹 Fixes
