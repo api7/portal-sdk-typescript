@@ -619,7 +619,7 @@ export type ListDevelopersErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -632,7 +632,7 @@ export type ListDevelopersErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -673,7 +673,7 @@ export type CreateDeveloperErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -686,7 +686,7 @@ export type CreateDeveloperErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -726,7 +726,7 @@ export type DeleteDeveloperErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -739,7 +739,7 @@ export type DeleteDeveloperErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -752,7 +752,7 @@ export type DeleteDeveloperErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -813,7 +813,7 @@ export type ListApiProductsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -826,7 +826,7 @@ export type ListApiProductsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -872,7 +872,7 @@ export type GetApiProductErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -885,7 +885,7 @@ export type GetApiProductErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -898,7 +898,7 @@ export type GetApiProductErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -938,7 +938,7 @@ export type CreateApiProductSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -951,7 +951,7 @@ export type CreateApiProductSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1011,7 +1011,7 @@ export type ListSubscriptionsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1024,7 +1024,7 @@ export type ListSubscriptionsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1065,7 +1065,7 @@ export type CreateSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1078,7 +1078,7 @@ export type CreateSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1116,7 +1116,7 @@ export type DeleteSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1129,7 +1129,7 @@ export type DeleteSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1142,7 +1142,7 @@ export type DeleteSubscriptionErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1209,7 +1209,7 @@ export type ListDeveloperApplicationsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1222,7 +1222,7 @@ export type ListDeveloperApplicationsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1263,7 +1263,7 @@ export type CreateDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1276,7 +1276,7 @@ export type CreateDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1313,7 +1313,7 @@ export type DeleteDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1326,7 +1326,7 @@ export type DeleteDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1339,7 +1339,7 @@ export type DeleteDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1379,7 +1379,7 @@ export type GetDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1392,7 +1392,7 @@ export type GetDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1405,7 +1405,7 @@ export type GetDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1442,7 +1442,7 @@ export type UpdateDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1455,7 +1455,7 @@ export type UpdateDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1468,7 +1468,7 @@ export type UpdateDeveloperApplicationErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1540,7 +1540,7 @@ export type ListDeveloperCredentialsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1553,7 +1553,7 @@ export type ListDeveloperCredentialsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1596,7 +1596,7 @@ export type CreateDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1609,7 +1609,7 @@ export type CreateDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1650,7 +1650,7 @@ export type DeleteDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1663,7 +1663,7 @@ export type DeleteDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1676,7 +1676,7 @@ export type DeleteDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1720,7 +1720,7 @@ export type GetDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1733,7 +1733,7 @@ export type GetDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1746,7 +1746,7 @@ export type GetDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1787,7 +1787,7 @@ export type UpsertDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1800,7 +1800,7 @@ export type UpsertDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1813,7 +1813,7 @@ export type UpsertDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1854,7 +1854,7 @@ export type RegenerateDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1867,7 +1867,7 @@ export type RegenerateDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -1880,7 +1880,7 @@ export type RegenerateDeveloperCredentialErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 404;
         /**
          * The error message.
          */
@@ -1924,7 +1924,7 @@ export type GetApiCallsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -1937,7 +1937,7 @@ export type GetApiCallsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -2014,7 +2014,7 @@ export type ListCredentialsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -2027,7 +2027,7 @@ export type ListCredentialsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -2070,7 +2070,7 @@ export type ListLabelsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -2083,7 +2083,7 @@ export type ListLabelsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -2118,7 +2118,7 @@ export type GetSmtpServerStatusErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -2131,7 +2131,7 @@ export type GetSmtpServerStatusErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -2166,7 +2166,7 @@ export type GetPublicAccessSettingsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -2179,7 +2179,7 @@ export type GetPublicAccessSettingsErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
@@ -2235,7 +2235,7 @@ export type ListDcrProvidersErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 400;
         /**
          * The error message.
          */
@@ -2248,7 +2248,7 @@ export type ListDcrProvidersErrors = {
         /**
          * The HTTP status code of the error response.
          */
-        status: number;
+        status: 401;
         /**
          * The error message.
          */
