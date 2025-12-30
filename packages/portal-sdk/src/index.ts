@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ApplicationAPI } from './application.js';
 import { CredentialAPI } from './credential.js';
 import {
@@ -14,6 +14,8 @@ import { createClient } from './generated/client/index.js';
 export { APIError } from './utils.js';
 
 export type Options = {
+  axios?: AxiosInstance;
+
   endpoint: string;
   token: string;
   getDeveloperId: () => Promise<string>;
@@ -31,18 +33,25 @@ export class API7Portal {
   public readonly proxy: (req: AxiosRequestConfig) => Promise<AxiosResponse>;
 
   constructor(opts: Options) {
-    const instance = axios.create({
-      baseURL: opts.endpoint,
-      headers: { Authorization: `Bearer ${opts.token}` },
-    });
+    const instance = opts.axios ?? axios.create();
 
+    if (!instance.defaults?.baseURL) instance.defaults.baseURL = opts.endpoint;
     instance.interceptors.request.use(async (config) => {
       config.headers = config.headers ?? {};
-      try {
-        config.headers['X-Portal-Developer-ID'] = await opts.getDeveloperId();
-      } catch (err) {
-        return Promise.reject(err);
+
+      const AUTHORIZATION_HEADER = 'Authorization';
+      if (!config.headers[AUTHORIZATION_HEADER])
+        config.headers[AUTHORIZATION_HEADER] = `Bearer ${opts.token}`;
+
+      const DEVELOPER_ID_HEADER = 'X-Portal-Developer-ID';
+      if (!config.headers[DEVELOPER_ID_HEADER]) {
+        try {
+          config.headers[DEVELOPER_ID_HEADER] = await opts.getDeveloperId();
+        } catch (err) {
+          return Promise.reject(err);
+        }
       }
+
       return config;
     });
 
