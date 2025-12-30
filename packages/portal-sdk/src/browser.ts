@@ -30,9 +30,11 @@ export class API7Portal {
   public readonly systemSetting: SystemSettingAPI;
 
   constructor(opts?: Options) {
-    const client = createClient({
-      axios: opts?.axios ?? axios.create({ baseURL: opts?.endpoint }),
-    });
+    const instance = opts?.axios ?? axios.create();
+    if (!instance.defaults?.baseURL && opts?.endpoint)
+      instance.defaults.baseURL = opts?.endpoint;
+
+    const client = createClient({ axios: instance });
     this.apiProduct = new APIProductAPI(client);
     this.application = new ApplicationAPI(client);
     this.credential = new CredentialAPI(client);
