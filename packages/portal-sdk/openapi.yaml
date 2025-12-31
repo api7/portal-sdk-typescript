@@ -298,8 +298,8 @@ paths:
     post:
       tags:
         - Credential
-      summary: Create a developer credential
-      operationId: createDeveloperCredential
+      summary: Create an application credential
+      operationId: createApplicationCredential
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       requestBody:
@@ -320,11 +320,11 @@ paths:
       tags:
         - Credential
       summary: List all credentials for the logged in developer
-      operationId: listDeveloperCredentials
+      operationId: listApplicationCredentials
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/AuthMethod"
-        - $ref: "#/components/parameters/DeveloperCredentialPluginName"
+        - $ref: "#/components/parameters/ApplicationCredentialPluginName"
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/PageSize"
         - $ref: "#/components/parameters/Direction"
@@ -344,11 +344,11 @@ paths:
     get:
       tags:
         - Credential
-      summary: Get a developer credential for Developer Portal
-      operationId: getDeveloperCredential
+      summary: Get an application credential for Developer Portal
+      operationId: getApplicationCredential
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
-        - $ref: "#/components/parameters/DeveloperCredentialID"
+        - $ref: "#/components/parameters/ApplicationCredentialID"
       responses:
         "200":
           $ref: "#/components/responses/ApplicationCredentialResponse"
@@ -363,11 +363,11 @@ paths:
     put:
       tags:
         - Credential
-      summary: Update a developer credential for Developer Portal
-      operationId: upsertDeveloperCredential
+      summary: Update an application credential for Developer Portal
+      operationId: upsertApplicationCredential
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
-        - $ref: "#/components/parameters/DeveloperCredentialID"
+        - $ref: "#/components/parameters/ApplicationCredentialID"
       requestBody:
         content:
           application/json:
@@ -387,11 +387,11 @@ paths:
     delete:
       tags:
         - Credential
-      summary: Delete a developer credential for Developer Portal
-      operationId: deleteDeveloperCredential
+      summary: Delete an application credential for Developer Portal
+      operationId: deleteApplicationCredential
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
-        - $ref: "#/components/parameters/DeveloperCredentialID"
+        - $ref: "#/components/parameters/ApplicationCredentialID"
       responses:
         "204":
           $ref: "#/components/responses/response204"
@@ -407,11 +407,11 @@ paths:
     put:
       tags:
         - Credential
-      summary: Regenerate a developer credential auth conf
-      operationId: regenerateDeveloperCredential
+      summary: Regenerate an application credential auth conf
+      operationId: regenerateApplicationCredential
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
-        - $ref: "#/components/parameters/DeveloperCredentialID"
+        - $ref: "#/components/parameters/ApplicationCredentialID"
       requestBody:
         content:
           application/json:
@@ -459,7 +459,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ApplicationsIDs"
         - $ref: "#/components/parameters/AuthMethod"
-        - $ref: "#/components/parameters/DeveloperCredentialPluginName"
+        - $ref: "#/components/parameters/ApplicationCredentialPluginName"
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/PageSize"
         - $ref: "#/components/parameters/Direction"
@@ -610,15 +610,6 @@ components:
         - unsubscribed
         - wait_for_approval
         - subscribed
-    DeveloperStatus:
-      type: string
-      description: |-
-        The status of the developer.
-        - pending: The user is pending approval.
-        - active: The user had been approved.
-      enum:
-        - pending
-        - active
     Developer:
       type: object
       required:
@@ -635,8 +626,6 @@ components:
           type: string
           description: Developer name.
           example: dev one
-        status:
-          $ref: "#/components/schemas/DeveloperStatus"
         last_active_at:
           $ref: "#/components/schemas/DateTime"
         created_at:
@@ -764,6 +753,11 @@ components:
                     type: string
                     description: The raw OpenAPI specification of the API product.
                     example: Raw OpenAPI spec
+                api_count:
+                  type: number
+                  format: int32
+                  description: API count. It is only returned when listing API products.
+                  example: 10
             - $ref: "#/components/schemas/ResourceBasics"
         - title: External API Product
           type: object
@@ -836,7 +830,7 @@ components:
                   description: API description.
                 api_count:
                   type: number
-                  format: int64
+                  format: int32
                   description: API count.
                   example: 10
             - $ref: "#/components/schemas/ResourceBasics"
@@ -877,6 +871,13 @@ components:
           $ref: "#/components/schemas/Description"
         labels:
           $ref: "#/components/schemas/LabelsMap"
+    CredentialType:
+      type: string
+      description: The type of the credential.
+      enum:
+        - key-auth
+        - basic-auth
+        - oauth
     ApplicationCredentialBasicsCommon:
       type: object
       required:
@@ -894,75 +895,87 @@ components:
         labels:
           $ref: "#/components/schemas/LabelsMap"
     ApplicationCredentialBasics:
-      description: The developer credential response.
+      description: The application credential response.
       type: object
       oneOf:
-        - title: Key Auth
-          allOf:
-            - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
-            - type: object
-              required:
-                - name
-                - plugins
-              properties:
-                name:
-                  $ref: "#/components/schemas/Name"
-                plugins:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - key-auth
-                  properties:
-                    key-auth:
-                      type: object
-        - title: Basic Auth
-          allOf:
-            - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
-            - type: object
-              required:
-                - name
-                - plugins
-              properties:
-                name:
-                  $ref: "#/components/schemas/Name"
-                plugins:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - basic-auth
-                  properties:
-                    basic-auth:
-                      type: object
-        - title: OAuth
-          allOf:
-            - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
-            - type: object
-              required:
+        - $ref: "#/components/schemas/KeyAuthApplicationCredentialBasics"
+        - $ref: "#/components/schemas/BasicAuthApplicationCredentialBasics"
+        - $ref: "#/components/schemas/OAuthApplicationCredentialBasics"
+    KeyAuthApplicationCredentialBasics:
+      description: Key Auth application credential response.
+      allOf:
+        - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
+        - type: object
+          required:
+            - type
+            - name
+          properties:
+            type:
+              type: string
+              enum:
+                - key-auth
+              description: The credential type.
+            name:
+              $ref: "#/components/schemas/Name"
+            key-auth:
+              type: object
+              description: Key Auth configuration.
+    BasicAuthApplicationCredentialBasics:
+      description: Basic Auth application credential response.
+      allOf:
+        - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
+        - type: object
+          required:
+            - type
+            - name
+          properties:
+            type:
+              type: string
+              enum:
+                - basic-auth
+              description: The credential type.
+            name:
+              $ref: "#/components/schemas/Name"
+            basic-auth:
+              type: object
+              description: Basic Auth configuration.
+    OAuthApplicationCredentialBasics:
+      description: OAuth application credential response.
+      allOf:
+        - $ref: "#/components/schemas/ApplicationCredentialBasicsCommon"
+        - type: object
+          required:
+            - type
+            - oauth
+          properties:
+            type:
+              type: string
+              enum:
                 - oauth
+              description: The credential type.
+            oauth:
+              type: object
+              required:
+                - dcr_provider_id
+                - client_id
               properties:
-                oauth:
-                  type: object
-                  required:
-                    - dcr_provider_id
-                    - client_id
-                  properties:
-                    dcr_provider_id:
-                      type: string
-                      description: The DCR provider ID.
-                    dcr_provider:
-                      $ref: "#/components/schemas/DCRProviderForDeveloper"
-                    client_id:
-                      type: string
-                      description: The client ID.
-                    client_secret:
-                      type: string
-                      description: The client secret is only returned upon creation.
-                    redirect_uris:
-                      type: array
-                      description: The redirect URIs.
-                      items:
-                        type: string
-                        minLength: 1
+                dcr_provider_id:
+                  type: string
+                  description: The DCR provider ID.
+                dcr_provider:
+                  $ref: "#/components/schemas/DCRProviderForDeveloper"
+                client_id:
+                  type: string
+                  description: The client ID.
+                client_secret:
+                  type: string
+                  description: The client secret is only returned upon creation.
+                redirect_uris:
+                  type: array
+                  description: The redirect URIs.
+                  items:
+                    type: string
+                    minLength: 1
     ApplicationCredential:
       description: The application credential.
       allOf:
@@ -979,121 +992,176 @@ components:
       description: Create an application credential request.
       type: object
       oneOf:
-        - title: Key Auth
-          allOf:
-            - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
-            - type: object
-              required:
-                - name
-                - plugins
-              properties:
-                name:
-                  $ref: "#/components/schemas/Name"
-                plugins:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - key-auth
-                  properties:
-                    key-auth:
-                      type: object
-                      nullable: true
-                      additionalProperties: false
-        - title: Basic Auth
-          allOf:
-            - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
-            - type: object
-              required:
-                - name
-                - plugins
-              properties:
-                name:
-                  $ref: "#/components/schemas/Name"
-                plugins:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - basic-auth
-                  properties:
-                    basic-auth:
-                      type: object
-                      additionalProperties: false
-                      required:
-                        - username
-                        - password
-                      properties:
-                        username:
-                          type: string
-                          description: Username.
-                        password:
-                          type: string
-                          description: User password.
-        - title: OAuth
-          allOf:
-            - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
-            - type: object
-              required:
-                - oauth
-              properties:
-                oauth:
-                  type: object
-                  required:
-                    - dcr_provider_id
-                  properties:
-                    dcr_provider_id:
-                      type: string
-                      description: The DCR provider ID.
-                    redirect_uris:
-                      type: array
-                      description: The redirect URIs.
-                      items:
-                        type: string
-                        minLength: 1
-    UpdateApplicationCredentialReq:
-      description: Update an application credential request.
-      type: object
-      oneOf:
-        - title: Key Auth Or Basic Auth
+        - $ref: "#/components/schemas/CreateKeyAuthApplicationCredentialReq"
+        - $ref: "#/components/schemas/CreateBasicAuthApplicationCredentialReq"
+        - $ref: "#/components/schemas/CreateOAuthApplicationCredentialReq"
+    CreateKeyAuthApplicationCredentialReq:
+      description: Create a Key Auth application credential request.
+      allOf:
+        - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
+        - type: object
           required:
+            - type
             - name
-          additionalProperties: false
           properties:
+            type:
+              type: string
+              enum:
+                - key-auth
+              description: The credential type.
             name:
               $ref: "#/components/schemas/Name"
-            desc:
-              $ref: "#/components/schemas/Description"
-            labels:
-              $ref: "#/components/schemas/LabelsMap"
-        - title: OAuth
+            key-auth:
+              type: object
+              nullable: true
+              additionalProperties: false
+              description: "Key Auth configuration. If null, key will be auto-generated."
+    CreateBasicAuthApplicationCredentialReq:
+      description: Create a Basic Auth application credential request.
+      allOf:
+        - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
+        - type: object
           required:
-            - oauth
-          additionalProperties: false
+            - type
+            - name
+            - basic-auth
           properties:
-            desc:
-              $ref: "#/components/schemas/Description"
-            labels:
-              $ref: "#/components/schemas/LabelsMap"
-            oauth:
+            type:
+              type: string
+              enum:
+                - basic-auth
+              description: The credential type.
+            name:
+              $ref: "#/components/schemas/Name"
+            basic-auth:
               type: object
               additionalProperties: false
+              required:
+                - username
+                - password
               properties:
+                username:
+                  type: string
+                  description: Username.
+                password:
+                  type: string
+                  description: User password.
+    CreateOAuthApplicationCredentialReq:
+      description: Create an OAuth application credential request.
+      allOf:
+        - $ref: "#/components/schemas/CreateApplicationCredentialReqCommon"
+        - type: object
+          required:
+            - type
+            - oauth
+          properties:
+            type:
+              type: string
+              enum:
+                - oauth
+              description: The credential type.
+            oauth:
+              type: object
+              required:
+                - dcr_provider_id
+              properties:
+                dcr_provider_id:
+                  type: string
+                  description: The DCR provider ID.
                 redirect_uris:
                   type: array
                   description: The redirect URIs.
                   items:
                     type: string
                     minLength: 1
+    UpdateApplicationCredentialReq:
+      description: Update an application credential request.
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/UpdateApplicationCredentialBasicsReq"
+        - $ref: "#/components/schemas/UpdateOAuthApplicationCredentialReq"
+    UpdateApplicationCredentialBasicsReq:
+      description: Update an application credential basics request.
+      type: object
+      required:
+        - type
+        - name
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - key-auth
+            - basic-auth
+          description: The credential type.
+        name:
+          $ref: "#/components/schemas/Name"
+        desc:
+          $ref: "#/components/schemas/Description"
+        labels:
+          $ref: "#/components/schemas/LabelsMap"
+    UpdateOAuthApplicationCredentialReq:
+      description: Update an OAuth application credential request.
+      type: object
+      required:
+        - type
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - oauth
+          description: The credential type.
+        desc:
+          $ref: "#/components/schemas/Description"
+        labels:
+          $ref: "#/components/schemas/LabelsMap"
+        oauth:
+          type: object
+          additionalProperties: false
+          properties:
+            redirect_uris:
+              type: array
+              description: The redirect URIs.
+              items:
+                type: string
+                minLength: 1
     RegenerateApplicationCredentialReq:
       description: Regenerate an application credential request.
       type: object
-      maxProperties: 1
-      minProperties: 1
+      oneOf:
+        - $ref: "#/components/schemas/RegenerateKeyAuthApplicationCredentialReq"
+        - $ref: "#/components/schemas/RegenerateBasicAuthApplicationCredentialReq"
+    RegenerateKeyAuthApplicationCredentialReq:
+      description: Regenerate a Key Auth application credential request.
+      type: object
+      required:
+        - type
       additionalProperties: false
       properties:
+        type:
+          type: string
+          enum:
+            - key-auth
+          description: The credential type.
         key-auth:
           type: object
           nullable: true
           additionalProperties: false
+          description: "Key Auth configuration. If null, key will be auto-generated."
+    RegenerateBasicAuthApplicationCredentialReq:
+      description: Regenerate a Basic Auth application credential request.
+      type: object
+      required:
+        - type
+        - basic-auth
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - basic-auth
+          description: The credential type.
         basic-auth:
           type: object
           additionalProperties: false
@@ -1211,8 +1279,10 @@ components:
         api_product_name:
           $ref: "#/components/schemas/Name"
         hour_timestamp:
-          $ref: "#/components/schemas/DateTime"
-          description: The hour timestamp in ISO 8601 format.
+          description: The object timestamp.
+          type: integer
+          minimum: 0
+          example: 1742288230
         api_calls:
           type: integer
           description: The number of API calls.
@@ -1243,7 +1313,7 @@ components:
       name: page
       schema:
         type: integer
-        format: int64
+        format: int32
         minimum: 1
       description: "Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page."
       in: query
@@ -1251,7 +1321,7 @@ components:
       name: page_size
       schema:
         type: integer
-        format: int64
+        format: int32
         minimum: 1
       description: "Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page."
       in: query
@@ -1313,9 +1383,9 @@ components:
         type: array
         items:
           $ref: "#/components/schemas/ID"
-    DeveloperCredentialID:
+    ApplicationCredentialID:
       name: credential_id
-      description: The unique identifier of the developer credential.
+      description: The unique identifier of the application credential.
       in: path
       required: true
       schema:
@@ -1331,9 +1401,9 @@ components:
           - key-auth
           - basic-auth
           - oauth
-    DeveloperCredentialPluginName:
+    ApplicationCredentialPluginName:
       name: plugin_name
-      description: "The plugin name of the developer credential, recommended to use `auth_method` instead."
+      description: "The plugin name of the application credential, recommended to use `auth_method` instead."
       in: query
       required: false
       deprecated: true
@@ -1475,7 +1545,6 @@ components:
                 description: The HTTP status code of the error response.
                 enum:
                   - 400
-                default: 400
               message:
                 type: string
                 description: The error message.
@@ -1495,7 +1564,6 @@ components:
                 description: The HTTP status code of the error response.
                 enum:
                   - 401
-                default: 401
               message:
                 type: string
                 description: The error message.
@@ -1515,7 +1583,6 @@ components:
                 description: The HTTP status code of the error response.
                 enum:
                   - 404
-                default: 404
               message:
                 type: string
                 description: The error message.

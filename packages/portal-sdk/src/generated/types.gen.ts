@@ -47,27 +47,12 @@ export const SubscriptionStatus = {
 
 export type SubscriptionStatus = typeof SubscriptionStatus[keyof typeof SubscriptionStatus];
 
-/**
- * The status of the developer.
- * - pending: The user is pending approval.
- * - active: The user had been approved.
- */
-export const DeveloperStatus = { PENDING: 'pending', ACTIVE: 'active' } as const;
-
-/**
- * The status of the developer.
- * - pending: The user is pending approval.
- * - active: The user had been approved.
- */
-export type DeveloperStatus = typeof DeveloperStatus[keyof typeof DeveloperStatus];
-
 export type Developer = {
     id: Id;
     /**
      * Developer name.
      */
     name: string;
-    status: DeveloperStatus;
     last_active_at?: DateTime;
     created_at: DateTime;
     updated_at: DateTime;
@@ -155,6 +140,10 @@ export type ApiProduct = ({
      * An array of raw OpenAPI specifications. It is only returned when getting an API product.
      */
     raw_openapis?: Array<string>;
+    /**
+     * API count. It is only returned when listing API products.
+     */
+    api_count?: number;
 } & ResourceBasics) | ({
     /**
      * Type of API product.
@@ -225,6 +214,20 @@ export type CreateDeveloperApplicationReq = {
     labels?: LabelsMap;
 };
 
+/**
+ * The type of the credential.
+ */
+export const CredentialType = {
+    KEY_AUTH: 'key-auth',
+    BASIC_AUTH: 'basic-auth',
+    OAUTH: 'oauth'
+} as const;
+
+/**
+ * The type of the credential.
+ */
+export type CredentialType = typeof CredentialType[keyof typeof CredentialType];
+
 export type ApplicationCredentialBasicsCommon = {
     application_id: Id;
     application_name: Name;
@@ -233,23 +236,52 @@ export type ApplicationCredentialBasicsCommon = {
 };
 
 /**
- * The developer credential response.
+ * The application credential response.
  */
-export type ApplicationCredentialBasics = (ApplicationCredentialBasicsCommon & {
+export type ApplicationCredentialBasics = KeyAuthApplicationCredentialBasics | BasicAuthApplicationCredentialBasics | OAuthApplicationCredentialBasics;
+
+/**
+ * Key Auth application credential response.
+ */
+export type KeyAuthApplicationCredentialBasics = ApplicationCredentialBasicsCommon & {
+    /**
+     * The credential type.
+     */
+    type: 'key-auth';
     name: Name;
-    plugins: {
-        'key-auth': {
-            [key: string]: unknown;
-        };
+    /**
+     * Key Auth configuration.
+     */
+    'key-auth'?: {
+        [key: string]: unknown;
     };
-}) | (ApplicationCredentialBasicsCommon & {
+};
+
+/**
+ * Basic Auth application credential response.
+ */
+export type BasicAuthApplicationCredentialBasics = ApplicationCredentialBasicsCommon & {
+    /**
+     * The credential type.
+     */
+    type: 'basic-auth';
     name: Name;
-    plugins: {
-        'basic-auth': {
-            [key: string]: unknown;
-        };
+    /**
+     * Basic Auth configuration.
+     */
+    'basic-auth'?: {
+        [key: string]: unknown;
     };
-}) | (ApplicationCredentialBasicsCommon & {
+};
+
+/**
+ * OAuth application credential response.
+ */
+export type OAuthApplicationCredentialBasics = ApplicationCredentialBasicsCommon & {
+    /**
+     * The credential type.
+     */
+    type: 'oauth';
     oauth: {
         /**
          * The DCR provider ID.
@@ -269,7 +301,7 @@ export type ApplicationCredentialBasics = (ApplicationCredentialBasicsCommon & {
          */
         redirect_uris?: Array<string>;
     };
-});
+};
 
 /**
  * The application credential.
@@ -284,26 +316,52 @@ export type CreateApplicationCredentialReqCommon = {
 /**
  * Create an application credential request.
  */
-export type CreateApplicationCredentialReq = (CreateApplicationCredentialReqCommon & {
+export type CreateApplicationCredentialReq = CreateKeyAuthApplicationCredentialReq | CreateBasicAuthApplicationCredentialReq | CreateOAuthApplicationCredentialReq;
+
+/**
+ * Create a Key Auth application credential request.
+ */
+export type CreateKeyAuthApplicationCredentialReq = CreateApplicationCredentialReqCommon & {
+    /**
+     * The credential type.
+     */
+    type: 'key-auth';
     name: Name;
-    plugins: {
-        'key-auth': {} | null;
-    };
-}) | (CreateApplicationCredentialReqCommon & {
+    /**
+     * Key Auth configuration. If null, key will be auto-generated.
+     */
+    'key-auth'?: {} | null;
+};
+
+/**
+ * Create a Basic Auth application credential request.
+ */
+export type CreateBasicAuthApplicationCredentialReq = CreateApplicationCredentialReqCommon & {
+    /**
+     * The credential type.
+     */
+    type: 'basic-auth';
     name: Name;
-    plugins: {
-        'basic-auth': {
-            /**
-             * Username.
-             */
-            username: string;
-            /**
-             * User password.
-             */
-            password: string;
-        };
+    'basic-auth': {
+        /**
+         * Username.
+         */
+        username: string;
+        /**
+         * User password.
+         */
+        password: string;
     };
-}) | (CreateApplicationCredentialReqCommon & {
+};
+
+/**
+ * Create an OAuth application credential request.
+ */
+export type CreateOAuthApplicationCredentialReq = CreateApplicationCredentialReqCommon & {
+    /**
+     * The credential type.
+     */
+    type: 'oauth';
     oauth: {
         /**
          * The DCR provider ID.
@@ -314,19 +372,37 @@ export type CreateApplicationCredentialReq = (CreateApplicationCredentialReqComm
          */
         redirect_uris?: Array<string>;
     };
-});
+};
 
 /**
  * Update an application credential request.
  */
-export type UpdateApplicationCredentialReq = {
+export type UpdateApplicationCredentialReq = UpdateApplicationCredentialBasicsReq | UpdateOAuthApplicationCredentialReq;
+
+/**
+ * Update a application credential basics request.
+ */
+export type UpdateApplicationCredentialBasicsReq = {
+    /**
+     * The credential type.
+     */
+    type: 'key-auth' | 'basic-auth';
     name: Name;
     desc?: Description;
     labels?: LabelsMap;
-} | {
+};
+
+/**
+ * Update an OAuth application credential request.
+ */
+export type UpdateOAuthApplicationCredentialReq = {
+    /**
+     * The credential type.
+     */
+    type: 'oauth';
     desc?: Description;
     labels?: LabelsMap;
-    oauth: {
+    oauth?: {
         /**
          * The redirect URIs.
          */
@@ -337,11 +413,33 @@ export type UpdateApplicationCredentialReq = {
 /**
  * Regenerate an application credential request.
  */
-export type RegenerateApplicationCredentialReq = {
+export type RegenerateApplicationCredentialReq = RegenerateKeyAuthApplicationCredentialReq | RegenerateBasicAuthApplicationCredentialReq;
+
+/**
+ * Regenerate a Key Auth application credential request.
+ */
+export type RegenerateKeyAuthApplicationCredentialReq = {
+    /**
+     * The credential type.
+     */
+    type: 'key-auth';
+    /**
+     * Key Auth configuration. If null, key will be auto-generated.
+     */
     'key-auth'?: {
         [key: string]: never;
     } | null;
-    'basic-auth'?: {
+};
+
+/**
+ * Regenerate a Basic Auth application credential request.
+ */
+export type RegenerateBasicAuthApplicationCredentialReq = {
+    /**
+     * The credential type.
+     */
+    type: 'basic-auth';
+    'basic-auth': {
         /**
          * Username.
          */
@@ -404,7 +502,10 @@ export type SmtpServerSettingsStatus = {
 export type ApiCall = {
     api_product_id: Id;
     api_product_name: Name;
-    hour_timestamp: DateTime;
+    /**
+     * The object timestamp.
+     */
+    hour_timestamp: number;
     /**
      * The number of API calls.
      */
@@ -441,12 +542,12 @@ export type ApiProductStatus = typeof ApiProductStatus[keyof typeof ApiProductSt
 /**
  * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
  */
-export type Page = bigint;
+export type Page = number;
 
 /**
  * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
  */
-export type PageSize = bigint;
+export type PageSize = number;
 
 /**
  * Order to list the resources by. The sorting index follows the configuration of `order_by`.
@@ -484,9 +585,9 @@ export type ApplicationIdInQuery = Id;
 export type ApplicationsIds = Array<Id>;
 
 /**
- * The unique identifier of the developer credential.
+ * The unique identifier of the application credential.
  */
-export type DeveloperCredentialId = Id;
+export type ApplicationCredentialId = Id;
 
 /**
  * The authentication method of the developer credential.
@@ -503,11 +604,11 @@ export const AuthMethod = {
 export type AuthMethod = typeof AuthMethod[keyof typeof AuthMethod];
 
 /**
- * The plugin name of the developer credential, recommended to use `auth_method` instead.
+ * The plugin name of the application credential, recommended to use `auth_method` instead.
  *
  * @deprecated
  */
-export type DeveloperCredentialPluginName = Name;
+export type ApplicationCredentialPluginName = Name;
 
 /**
  * Index to order credentials by.
@@ -590,11 +691,11 @@ export type ListDevelopersData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
@@ -782,11 +883,11 @@ export type ListApiProductsData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
@@ -990,11 +1091,11 @@ export type ListSubscriptionsData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
@@ -1188,11 +1289,11 @@ export type ListDeveloperApplicationsData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
@@ -1488,7 +1589,7 @@ export type UpdateDeveloperApplicationResponses = {
 
 export type UpdateDeveloperApplicationResponse = UpdateDeveloperApplicationResponses[keyof UpdateDeveloperApplicationResponses];
 
-export type ListDeveloperCredentialsData = {
+export type ListApplicationCredentialsData = {
     body?: never;
     path: {
         application_id: Id;
@@ -1499,7 +1600,7 @@ export type ListDeveloperCredentialsData = {
          */
         auth_method?: 'key-auth' | 'basic-auth' | 'oauth';
         /**
-         * The plugin name of the developer credential, recommended to use `auth_method` instead.
+         * The plugin name of the application credential, recommended to use `auth_method` instead.
          *
          * @deprecated
          */
@@ -1507,11 +1608,11 @@ export type ListDeveloperCredentialsData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
@@ -1532,7 +1633,7 @@ export type ListDeveloperCredentialsData = {
     url: '/api/applications/{application_id}/credentials';
 };
 
-export type ListDeveloperCredentialsErrors = {
+export type ListApplicationCredentialsErrors = {
     /**
      * Bad request.
      */
@@ -1565,9 +1666,9 @@ export type ListDeveloperCredentialsErrors = {
     500: unknown;
 };
 
-export type ListDeveloperCredentialsError = ListDeveloperCredentialsErrors[keyof ListDeveloperCredentialsErrors];
+export type ListApplicationCredentialsError = ListApplicationCredentialsErrors[keyof ListApplicationCredentialsErrors];
 
-export type ListDeveloperCredentialsResponses = {
+export type ListApplicationCredentialsResponses = {
     200: {
         /**
          * An array of application credentials.
@@ -1577,9 +1678,9 @@ export type ListDeveloperCredentialsResponses = {
     };
 };
 
-export type ListDeveloperCredentialsResponse = ListDeveloperCredentialsResponses[keyof ListDeveloperCredentialsResponses];
+export type ListApplicationCredentialsResponse = ListApplicationCredentialsResponses[keyof ListApplicationCredentialsResponses];
 
-export type CreateDeveloperCredentialData = {
+export type CreateApplicationCredentialData = {
     body?: CreateApplicationCredentialReq;
     path: {
         application_id: Id;
@@ -1588,7 +1689,7 @@ export type CreateDeveloperCredentialData = {
     url: '/api/applications/{application_id}/credentials';
 };
 
-export type CreateDeveloperCredentialErrors = {
+export type CreateApplicationCredentialErrors = {
     /**
      * Bad request.
      */
@@ -1621,20 +1722,20 @@ export type CreateDeveloperCredentialErrors = {
     500: unknown;
 };
 
-export type CreateDeveloperCredentialError = CreateDeveloperCredentialErrors[keyof CreateDeveloperCredentialErrors];
+export type CreateApplicationCredentialError = CreateApplicationCredentialErrors[keyof CreateApplicationCredentialErrors];
 
-export type CreateDeveloperCredentialResponses = {
+export type CreateApplicationCredentialResponses = {
     201: ApplicationCredential;
 };
 
-export type CreateDeveloperCredentialResponse = CreateDeveloperCredentialResponses[keyof CreateDeveloperCredentialResponses];
+export type CreateApplicationCredentialResponse = CreateApplicationCredentialResponses[keyof CreateApplicationCredentialResponses];
 
-export type DeleteDeveloperCredentialData = {
+export type DeleteApplicationCredentialData = {
     body?: never;
     path: {
         application_id: Id;
         /**
-         * The unique identifier of the developer credential.
+         * The unique identifier of the application credential.
          */
         credential_id: Id;
     };
@@ -1642,7 +1743,7 @@ export type DeleteDeveloperCredentialData = {
     url: '/api/applications/{application_id}/credentials/{credential_id}';
 };
 
-export type DeleteDeveloperCredentialErrors = {
+export type DeleteApplicationCredentialErrors = {
     /**
      * Bad request.
      */
@@ -1688,23 +1789,23 @@ export type DeleteDeveloperCredentialErrors = {
     500: unknown;
 };
 
-export type DeleteDeveloperCredentialError = DeleteDeveloperCredentialErrors[keyof DeleteDeveloperCredentialErrors];
+export type DeleteApplicationCredentialError = DeleteApplicationCredentialErrors[keyof DeleteApplicationCredentialErrors];
 
-export type DeleteDeveloperCredentialResponses = {
+export type DeleteApplicationCredentialResponses = {
     /**
      * The resource was deleted successfully.
      */
     204: void;
 };
 
-export type DeleteDeveloperCredentialResponse = DeleteDeveloperCredentialResponses[keyof DeleteDeveloperCredentialResponses];
+export type DeleteApplicationCredentialResponse = DeleteApplicationCredentialResponses[keyof DeleteApplicationCredentialResponses];
 
-export type GetDeveloperCredentialData = {
+export type GetApplicationCredentialData = {
     body?: never;
     path: {
         application_id: Id;
         /**
-         * The unique identifier of the developer credential.
+         * The unique identifier of the application credential.
          */
         credential_id: Id;
     };
@@ -1712,7 +1813,7 @@ export type GetDeveloperCredentialData = {
     url: '/api/applications/{application_id}/credentials/{credential_id}';
 };
 
-export type GetDeveloperCredentialErrors = {
+export type GetApplicationCredentialErrors = {
     /**
      * Bad request.
      */
@@ -1758,20 +1859,20 @@ export type GetDeveloperCredentialErrors = {
     500: unknown;
 };
 
-export type GetDeveloperCredentialError = GetDeveloperCredentialErrors[keyof GetDeveloperCredentialErrors];
+export type GetApplicationCredentialError = GetApplicationCredentialErrors[keyof GetApplicationCredentialErrors];
 
-export type GetDeveloperCredentialResponses = {
+export type GetApplicationCredentialResponses = {
     200: ApplicationCredential;
 };
 
-export type GetDeveloperCredentialResponse = GetDeveloperCredentialResponses[keyof GetDeveloperCredentialResponses];
+export type GetApplicationCredentialResponse = GetApplicationCredentialResponses[keyof GetApplicationCredentialResponses];
 
-export type UpsertDeveloperCredentialData = {
+export type UpsertApplicationCredentialData = {
     body?: UpdateApplicationCredentialReq;
     path: {
         application_id: Id;
         /**
-         * The unique identifier of the developer credential.
+         * The unique identifier of the application credential.
          */
         credential_id: Id;
     };
@@ -1779,7 +1880,7 @@ export type UpsertDeveloperCredentialData = {
     url: '/api/applications/{application_id}/credentials/{credential_id}';
 };
 
-export type UpsertDeveloperCredentialErrors = {
+export type UpsertApplicationCredentialErrors = {
     /**
      * Bad request.
      */
@@ -1825,20 +1926,20 @@ export type UpsertDeveloperCredentialErrors = {
     500: unknown;
 };
 
-export type UpsertDeveloperCredentialError = UpsertDeveloperCredentialErrors[keyof UpsertDeveloperCredentialErrors];
+export type UpsertApplicationCredentialError = UpsertApplicationCredentialErrors[keyof UpsertApplicationCredentialErrors];
 
-export type UpsertDeveloperCredentialResponses = {
+export type UpsertApplicationCredentialResponses = {
     200: ApplicationCredential;
 };
 
-export type UpsertDeveloperCredentialResponse = UpsertDeveloperCredentialResponses[keyof UpsertDeveloperCredentialResponses];
+export type UpsertApplicationCredentialResponse = UpsertApplicationCredentialResponses[keyof UpsertApplicationCredentialResponses];
 
-export type RegenerateDeveloperCredentialData = {
+export type RegenerateApplicationCredentialData = {
     body?: RegenerateApplicationCredentialReq;
     path: {
         application_id: Id;
         /**
-         * The unique identifier of the developer credential.
+         * The unique identifier of the application credential.
          */
         credential_id: Id;
     };
@@ -1846,7 +1947,7 @@ export type RegenerateDeveloperCredentialData = {
     url: '/api/applications/{application_id}/credentials/{credential_id}/regenerate';
 };
 
-export type RegenerateDeveloperCredentialErrors = {
+export type RegenerateApplicationCredentialErrors = {
     /**
      * Bad request.
      */
@@ -1892,13 +1993,13 @@ export type RegenerateDeveloperCredentialErrors = {
     500: unknown;
 };
 
-export type RegenerateDeveloperCredentialError = RegenerateDeveloperCredentialErrors[keyof RegenerateDeveloperCredentialErrors];
+export type RegenerateApplicationCredentialError = RegenerateApplicationCredentialErrors[keyof RegenerateApplicationCredentialErrors];
 
-export type RegenerateDeveloperCredentialResponses = {
+export type RegenerateApplicationCredentialResponses = {
     200: ApplicationCredential;
 };
 
-export type RegenerateDeveloperCredentialResponse = RegenerateDeveloperCredentialResponses[keyof RegenerateDeveloperCredentialResponses];
+export type RegenerateApplicationCredentialResponse = RegenerateApplicationCredentialResponses[keyof RegenerateApplicationCredentialResponses];
 
 export type GetApiCallsData = {
     body?: never;
@@ -1973,7 +2074,7 @@ export type ListCredentialsData = {
          */
         auth_method?: 'key-auth' | 'basic-auth' | 'oauth';
         /**
-         * The plugin name of the developer credential, recommended to use `auth_method` instead.
+         * The plugin name of the application credential, recommended to use `auth_method` instead.
          *
          * @deprecated
          */
@@ -1981,11 +2082,11 @@ export type ListCredentialsData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
@@ -2206,11 +2307,11 @@ export type ListDcrProvidersData = {
         /**
          * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page?: bigint;
+        page?: number;
         /**
          * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
          */
-        page_size?: bigint;
+        page_size?: number;
         /**
          * Order to list the resources by. The sorting index follows the configuration of `order_by`.
          */
