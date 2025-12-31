@@ -4,17 +4,17 @@ import {
   type CreateApplicationCredentialReq,
   type ListCredentialsData,
   type ListCredentialsResponses,
-  type ListDeveloperCredentialsData,
-  type ListDeveloperCredentialsResponses,
+  type ListApplicationCredentialsData,
+  type ListApplicationCredentialsResponses,
   type RegenerateApplicationCredentialReq,
   type UpdateApplicationCredentialReq,
-  createDeveloperCredential,
-  deleteDeveloperCredential,
-  getDeveloperCredential,
+  createApplicationCredential,
+  deleteApplicationCredential,
+  getApplicationCredential,
   listCredentials,
-  listDeveloperCredentials,
-  regenerateDeveloperCredential,
-  upsertDeveloperCredential,
+  listApplicationCredentials,
+  regenerateApplicationCredential,
+  upsertApplicationCredential,
 } from './generated/index.js';
 import { transformResponse } from './utils.js';
 
@@ -33,7 +33,7 @@ export class ApplicationCredentialAPI {
     data: CreateApplicationCredentialReq,
   ): Promise<ApplicationCredential> {
     return transformResponse(
-      await createDeveloperCredential({
+      await createApplicationCredential({
         client: this.client,
         path: { application_id: applicationId },
         body: data,
@@ -50,10 +50,10 @@ export class ApplicationCredentialAPI {
    */
   public async list(
     applicationId: string,
-    query: ListDeveloperCredentialsData['query'],
-  ): Promise<ListDeveloperCredentialsResponses['200']> {
+    query: ListApplicationCredentialsData['query'],
+  ): Promise<ListApplicationCredentialsResponses['200']> {
     return transformResponse(
-      await listDeveloperCredentials({
+      await listApplicationCredentials({
         client: this.client,
         path: { application_id: applicationId },
         query,
@@ -73,7 +73,7 @@ export class ApplicationCredentialAPI {
     credentialId: string,
   ): Promise<ApplicationCredential> {
     return transformResponse(
-      await getDeveloperCredential({
+      await getApplicationCredential({
         client: this.client,
         path: {
           application_id: applicationId,
@@ -97,7 +97,7 @@ export class ApplicationCredentialAPI {
     data: UpdateApplicationCredentialReq,
   ): Promise<ApplicationCredential> {
     return transformResponse(
-      await upsertDeveloperCredential({
+      await upsertApplicationCredential({
         client: this.client,
         path: {
           application_id: applicationId,
@@ -119,7 +119,7 @@ export class ApplicationCredentialAPI {
     credentialId: string,
   ): Promise<void> {
     return transformResponse(
-      await deleteDeveloperCredential({
+      await deleteApplicationCredential({
         client: this.client,
         path: {
           application_id: applicationId,
@@ -143,7 +143,7 @@ export class ApplicationCredentialAPI {
     data: RegenerateApplicationCredentialReq,
   ): Promise<ApplicationCredential> {
     return transformResponse(
-      await regenerateDeveloperCredential({
+      await regenerateApplicationCredential({
         client: this.client,
         path: {
           application_id: applicationId,

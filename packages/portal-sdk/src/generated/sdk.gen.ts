@@ -2,8 +2,8 @@
 
 import { client } from './client.gen.js';
 import type { Client, Options as Options2, TDataShape } from './client/index.js';
-import { createDeveloperApplicationResponseTransformer, createDeveloperCredentialResponseTransformer, createDeveloperResponseTransformer, getApiCallsResponseTransformer, getDeveloperApplicationResponseTransformer, getDeveloperCredentialResponseTransformer, listCredentialsResponseTransformer, listDeveloperApplicationsResponseTransformer, listDeveloperCredentialsResponseTransformer, listDevelopersResponseTransformer, listSubscriptionsResponseTransformer, regenerateDeveloperCredentialResponseTransformer, updateDeveloperApplicationResponseTransformer, upsertDeveloperCredentialResponseTransformer } from './transformers.gen.js';
-import type { CreateApiProductSubscriptionData, CreateApiProductSubscriptionErrors, CreateApiProductSubscriptionResponses, CreateDeveloperApplicationData, CreateDeveloperApplicationErrors, CreateDeveloperApplicationResponses, CreateDeveloperCredentialData, CreateDeveloperCredentialErrors, CreateDeveloperCredentialResponses, CreateDeveloperData, CreateDeveloperErrors, CreateDeveloperResponses, CreateSubscriptionData, CreateSubscriptionErrors, CreateSubscriptionResponses, DeleteDeveloperApplicationData, DeleteDeveloperApplicationErrors, DeleteDeveloperApplicationResponses, DeleteDeveloperCredentialData, DeleteDeveloperCredentialErrors, DeleteDeveloperCredentialResponses, DeleteDeveloperData, DeleteDeveloperErrors, DeleteDeveloperResponses, DeleteSubscriptionData, DeleteSubscriptionErrors, DeleteSubscriptionResponses, GetApiCallsData, GetApiCallsErrors, GetApiCallsResponses, GetApiProductData, GetApiProductErrors, GetApiProductResponses, GetDeveloperApplicationData, GetDeveloperApplicationErrors, GetDeveloperApplicationResponses, GetDeveloperCredentialData, GetDeveloperCredentialErrors, GetDeveloperCredentialResponses, GetPublicAccessSettingsData, GetPublicAccessSettingsErrors, GetPublicAccessSettingsResponses, GetSmtpServerStatusData, GetSmtpServerStatusErrors, GetSmtpServerStatusResponses, ListApiProductsData, ListApiProductsErrors, ListApiProductsResponses, ListCredentialsData, ListCredentialsErrors, ListCredentialsResponses, ListDcrProvidersData, ListDcrProvidersErrors, ListDcrProvidersResponses, ListDeveloperApplicationsData, ListDeveloperApplicationsErrors, ListDeveloperApplicationsResponses, ListDeveloperCredentialsData, ListDeveloperCredentialsErrors, ListDeveloperCredentialsResponses, ListDevelopersData, ListDevelopersErrors, ListDevelopersResponses, ListLabelsData, ListLabelsErrors, ListLabelsResponses, ListSubscriptionsData, ListSubscriptionsErrors, ListSubscriptionsResponses, RegenerateDeveloperCredentialData, RegenerateDeveloperCredentialErrors, RegenerateDeveloperCredentialResponses, UpdateDeveloperApplicationData, UpdateDeveloperApplicationErrors, UpdateDeveloperApplicationResponses, UpsertDeveloperCredentialData, UpsertDeveloperCredentialErrors, UpsertDeveloperCredentialResponses } from './types.gen.js';
+import { createApplicationCredentialResponseTransformer, createDeveloperApplicationResponseTransformer, createDeveloperResponseTransformer, getApplicationCredentialResponseTransformer, getDeveloperApplicationResponseTransformer, listApplicationCredentialsResponseTransformer, listCredentialsResponseTransformer, listDeveloperApplicationsResponseTransformer, listDevelopersResponseTransformer, listSubscriptionsResponseTransformer, regenerateApplicationCredentialResponseTransformer, updateDeveloperApplicationResponseTransformer, upsertApplicationCredentialResponseTransformer } from './transformers.gen.js';
+import type { CreateApiProductSubscriptionData, CreateApiProductSubscriptionErrors, CreateApiProductSubscriptionResponses, CreateApplicationCredentialData, CreateApplicationCredentialErrors, CreateApplicationCredentialResponses, CreateDeveloperApplicationData, CreateDeveloperApplicationErrors, CreateDeveloperApplicationResponses, CreateDeveloperData, CreateDeveloperErrors, CreateDeveloperResponses, CreateSubscriptionData, CreateSubscriptionErrors, CreateSubscriptionResponses, DeleteApplicationCredentialData, DeleteApplicationCredentialErrors, DeleteApplicationCredentialResponses, DeleteDeveloperApplicationData, DeleteDeveloperApplicationErrors, DeleteDeveloperApplicationResponses, DeleteDeveloperData, DeleteDeveloperErrors, DeleteDeveloperResponses, DeleteSubscriptionData, DeleteSubscriptionErrors, DeleteSubscriptionResponses, GetApiCallsData, GetApiCallsErrors, GetApiCallsResponses, GetApiProductData, GetApiProductErrors, GetApiProductResponses, GetApplicationCredentialData, GetApplicationCredentialErrors, GetApplicationCredentialResponses, GetDeveloperApplicationData, GetDeveloperApplicationErrors, GetDeveloperApplicationResponses, GetPublicAccessSettingsData, GetPublicAccessSettingsErrors, GetPublicAccessSettingsResponses, GetSmtpServerStatusData, GetSmtpServerStatusErrors, GetSmtpServerStatusResponses, ListApiProductsData, ListApiProductsErrors, ListApiProductsResponses, ListApplicationCredentialsData, ListApplicationCredentialsErrors, ListApplicationCredentialsResponses, ListCredentialsData, ListCredentialsErrors, ListCredentialsResponses, ListDcrProvidersData, ListDcrProvidersErrors, ListDcrProvidersResponses, ListDeveloperApplicationsData, ListDeveloperApplicationsErrors, ListDeveloperApplicationsResponses, ListDevelopersData, ListDevelopersErrors, ListDevelopersResponses, ListLabelsData, ListLabelsErrors, ListLabelsResponses, ListSubscriptionsData, ListSubscriptionsErrors, ListSubscriptionsResponses, RegenerateApplicationCredentialData, RegenerateApplicationCredentialErrors, RegenerateApplicationCredentialResponses, UpdateDeveloperApplicationData, UpdateDeveloperApplicationErrors, UpdateDeveloperApplicationResponses, UpsertApplicationCredentialData, UpsertApplicationCredentialErrors, UpsertApplicationCredentialResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -161,18 +161,18 @@ export const updateDeveloperApplication = <ThrowOnError extends boolean = false>
 /**
  * List all credentials for the logged in developer
  */
-export const listDeveloperCredentials = <ThrowOnError extends boolean = false>(options: Options<ListDeveloperCredentialsData, ThrowOnError>) => (options.client ?? client).get<ListDeveloperCredentialsResponses, ListDeveloperCredentialsErrors, ThrowOnError>({
-    responseTransformer: listDeveloperCredentialsResponseTransformer,
+export const listApplicationCredentials = <ThrowOnError extends boolean = false>(options: Options<ListApplicationCredentialsData, ThrowOnError>) => (options.client ?? client).get<ListApplicationCredentialsResponses, ListApplicationCredentialsErrors, ThrowOnError>({
+    responseTransformer: listApplicationCredentialsResponseTransformer,
     responseType: 'json',
     url: '/api/applications/{application_id}/credentials',
     ...options
 });
 
 /**
- * Create a developer credential
+ * Create an application credential
  */
-export const createDeveloperCredential = <ThrowOnError extends boolean = false>(options: Options<CreateDeveloperCredentialData, ThrowOnError>) => (options.client ?? client).post<CreateDeveloperCredentialResponses, CreateDeveloperCredentialErrors, ThrowOnError>({
-    responseTransformer: createDeveloperCredentialResponseTransformer,
+export const createApplicationCredential = <ThrowOnError extends boolean = false>(options: Options<CreateApplicationCredentialData, ThrowOnError>) => (options.client ?? client).post<CreateApplicationCredentialResponses, CreateApplicationCredentialErrors, ThrowOnError>({
+    responseTransformer: createApplicationCredentialResponseTransformer,
     responseType: 'json',
     url: '/api/applications/{application_id}/credentials',
     ...options,
@@ -183,25 +183,25 @@ export const createDeveloperCredential = <ThrowOnError extends boolean = false>(
 });
 
 /**
- * Delete a developer credential for Developer Portal
+ * Delete an application credential for Developer Portal
  */
-export const deleteDeveloperCredential = <ThrowOnError extends boolean = false>(options: Options<DeleteDeveloperCredentialData, ThrowOnError>) => (options.client ?? client).delete<DeleteDeveloperCredentialResponses, DeleteDeveloperCredentialErrors, ThrowOnError>({ url: '/api/applications/{application_id}/credentials/{credential_id}', ...options });
+export const deleteApplicationCredential = <ThrowOnError extends boolean = false>(options: Options<DeleteApplicationCredentialData, ThrowOnError>) => (options.client ?? client).delete<DeleteApplicationCredentialResponses, DeleteApplicationCredentialErrors, ThrowOnError>({ url: '/api/applications/{application_id}/credentials/{credential_id}', ...options });
 
 /**
- * Get a developer credential for Developer Portal
+ * Get an application credential for Developer Portal
  */
-export const getDeveloperCredential = <ThrowOnError extends boolean = false>(options: Options<GetDeveloperCredentialData, ThrowOnError>) => (options.client ?? client).get<GetDeveloperCredentialResponses, GetDeveloperCredentialErrors, ThrowOnError>({
-    responseTransformer: getDeveloperCredentialResponseTransformer,
+export const getApplicationCredential = <ThrowOnError extends boolean = false>(options: Options<GetApplicationCredentialData, ThrowOnError>) => (options.client ?? client).get<GetApplicationCredentialResponses, GetApplicationCredentialErrors, ThrowOnError>({
+    responseTransformer: getApplicationCredentialResponseTransformer,
     responseType: 'json',
     url: '/api/applications/{application_id}/credentials/{credential_id}',
     ...options
 });
 
 /**
- * Update a developer credential for Developer Portal
+ * Update an application credential for Developer Portal
  */
-export const upsertDeveloperCredential = <ThrowOnError extends boolean = false>(options: Options<UpsertDeveloperCredentialData, ThrowOnError>) => (options.client ?? client).put<UpsertDeveloperCredentialResponses, UpsertDeveloperCredentialErrors, ThrowOnError>({
-    responseTransformer: upsertDeveloperCredentialResponseTransformer,
+export const upsertApplicationCredential = <ThrowOnError extends boolean = false>(options: Options<UpsertApplicationCredentialData, ThrowOnError>) => (options.client ?? client).put<UpsertApplicationCredentialResponses, UpsertApplicationCredentialErrors, ThrowOnError>({
+    responseTransformer: upsertApplicationCredentialResponseTransformer,
     responseType: 'json',
     url: '/api/applications/{application_id}/credentials/{credential_id}',
     ...options,
@@ -212,10 +212,10 @@ export const upsertDeveloperCredential = <ThrowOnError extends boolean = false>(
 });
 
 /**
- * Regenerate a developer credential auth conf
+ * Regenerate an application credential auth conf
  */
-export const regenerateDeveloperCredential = <ThrowOnError extends boolean = false>(options: Options<RegenerateDeveloperCredentialData, ThrowOnError>) => (options.client ?? client).put<RegenerateDeveloperCredentialResponses, RegenerateDeveloperCredentialErrors, ThrowOnError>({
-    responseTransformer: regenerateDeveloperCredentialResponseTransformer,
+export const regenerateApplicationCredential = <ThrowOnError extends boolean = false>(options: Options<RegenerateApplicationCredentialData, ThrowOnError>) => (options.client ?? client).put<RegenerateApplicationCredentialResponses, RegenerateApplicationCredentialErrors, ThrowOnError>({
+    responseTransformer: regenerateApplicationCredentialResponseTransformer,
     responseType: 'json',
     url: '/api/applications/{application_id}/credentials/{credential_id}/regenerate',
     ...options,
@@ -231,7 +231,6 @@ export const regenerateDeveloperCredential = <ThrowOnError extends boolean = fal
  * Retrieve a list of API calls made by the user.
  */
 export const getApiCalls = <ThrowOnError extends boolean = false>(options: Options<GetApiCallsData, ThrowOnError>) => (options.client ?? client).get<GetApiCallsResponses, GetApiCallsErrors, ThrowOnError>({
-    responseTransformer: getApiCallsResponseTransformer,
     responseType: 'json',
     url: '/api/applications/api_calls',
     ...options
