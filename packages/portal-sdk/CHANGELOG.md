@@ -1,3 +1,10 @@
+## 0.0.4 (2025-12-31)
+
+### 🩹 Fixes
+
+- feat(portal-sdk): export error types ([#5](https://github.com/api7/portal-sdk-typescript/pull/5))
+- feat(portal-sdk): adjust application credential structure ([#6](https://github.com/api7/portal-sdk-typescript/pull/6))
+
 ## 0.0.3 (2025-12-30)
 
 ### 🩹 Fixes
