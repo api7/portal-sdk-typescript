@@ -1081,7 +1081,7 @@ components:
         - $ref: "#/components/schemas/UpdateApplicationCredentialBasicsReq"
         - $ref: "#/components/schemas/UpdateOAuthApplicationCredentialReq"
     UpdateApplicationCredentialBasicsReq:
-      description: Update a application credential basics request.
+      description: Update an application credential basics request.
       type: object
       required:
         - type
