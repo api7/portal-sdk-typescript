@@ -27,7 +27,9 @@ export const createDeveloperResponseTransformer = async (data: any): Promise<Cre
 };
 
 const subscriptionSchemaResponseTransformer = (data: any) => {
-    data.subscribed_at = dateTimeSchemaResponseTransformer(data.subscribed_at);
+    if (data.subscribed_at) {
+        data.subscribed_at = dateTimeSchemaResponseTransformer(data.subscribed_at);
+    }
     return data;
 };
 
