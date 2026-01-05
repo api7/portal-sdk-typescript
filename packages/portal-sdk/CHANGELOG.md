@@ -1,3 +1,9 @@
+## 1.0.1 (2026-01-05)
+
+### 🩹 Fixes
+
+- fix(portal-sdk): optional subscribed_at ([#8](https://github.com/api7/portal-sdk-typescript/pull/8))
+
 # 1.0.0 (2026-01-05)
 
 ### ⚠️  Breaking Changes
