@@ -380,7 +380,7 @@ export type CreateOAuthApplicationCredentialReq = CreateApplicationCredentialReq
 export type UpdateApplicationCredentialReq = UpdateApplicationCredentialBasicsReq | UpdateOAuthApplicationCredentialReq;
 
 /**
- * Update a application credential basics request.
+ * Update an application credential basics request.
  */
 export type UpdateApplicationCredentialBasicsReq = {
     /**
@@ -458,7 +458,7 @@ export type Subscription = {
     id: string;
     developer_id: string;
     developer_name: string;
-    subscribed_at: DateTime;
+    subscribed_at?: DateTime;
     application_id: Id;
     application_name: Name;
     api_product_id: Id;

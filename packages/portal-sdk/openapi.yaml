@@ -1181,7 +1181,6 @@ components:
         - id
         - developer_id
         - developer_name
-        - subscribed_at
         - application_id
         - application_name
         - api_product_id
