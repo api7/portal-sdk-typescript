@@ -1,3 +1,9 @@
+# 1.0.0 (2026-01-05)
+
+### ⚠️  Breaking Changes
+
+- feat(portal-sdk): release 1.0.0 ([#7](https://github.com/api7/portal-sdk-typescript/pull/7))
+
 ## 0.0.4 (2025-12-31)
 
 ### 🩹 Fixes
