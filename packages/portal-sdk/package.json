@@ -34,10 +34,10 @@
     "!**/*.tsbuildinfo"
   ],
   "devDependencies": {
-    "@hey-api/openapi-ts": "0.89.2"
+    "@hey-api/openapi-ts": "0.94.5"
   },
   "dependencies": {
-    "axios": "^1.13.2"
+    "axios": "^1.14.0"
   },
   "nx": {
     "name": "portal-sdk",
