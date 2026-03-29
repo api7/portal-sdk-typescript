@@ -69,6 +69,10 @@ export type DcrProviderForDeveloper = {
      */
     name: string;
     /**
+     * The type of DCR provider.
+     */
+    provider_type?: 'oidc' | 'http_bridge';
+    /**
      * The issuer URL of the Authorization Server.
      */
     issuer: string;
@@ -297,6 +301,10 @@ export type OAuthApplicationCredentialBasics = ApplicationCredentialBasicsCommon
          */
         client_secret?: string;
         /**
+         * The Unix timestamp (seconds) when the client secret expires. A value of 0 means the secret does not expire (per RFC 7591). Null or absent means the expiry is unknown.
+         */
+        client_secret_expires_at?: bigint | null;
+        /**
          * The redirect URIs.
          */
         redirect_uris?: Array<string>;
@@ -402,7 +410,7 @@ export type UpdateOAuthApplicationCredentialReq = {
     type: 'oauth';
     desc?: Description;
     labels?: LabelsMap;
-    oauth?: {
+    oauth: {
         /**
          * The redirect URIs.
          */
@@ -413,7 +421,7 @@ export type UpdateOAuthApplicationCredentialReq = {
 /**
  * Regenerate an application credential request.
  */
-export type RegenerateApplicationCredentialReq = RegenerateKeyAuthApplicationCredentialReq | RegenerateBasicAuthApplicationCredentialReq;
+export type RegenerateApplicationCredentialReq = RegenerateKeyAuthApplicationCredentialReq | RegenerateBasicAuthApplicationCredentialReq | RegenerateOAuthApplicationCredentialReq;
 
 /**
  * Regenerate a Key Auth application credential request.
@@ -449,6 +457,16 @@ export type RegenerateBasicAuthApplicationCredentialReq = {
          */
         password: string;
     };
+};
+
+/**
+ * Regenerate an OAuth application credential (rotate client secret).
+ */
+export type RegenerateOAuthApplicationCredentialReq = {
+    /**
+     * The credential type.
+     */
+    type: 'oauth';
 };
 
 export type Subscription = {

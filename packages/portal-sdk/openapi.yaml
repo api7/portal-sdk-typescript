@@ -196,7 +196,7 @@ paths:
     post:
       tags:
         - Application
-      summary: Create a application by the logged in developer.
+      summary: Create an application by the logged in developer.
       operationId: createDeveloperApplication
       requestBody:
         content:
@@ -238,7 +238,7 @@ paths:
     get:
       tags:
         - Application
-      summary: Get a application for the logged in developer.
+      summary: Get an application for the logged in developer.
       operationId: getDeveloperApplication
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
@@ -256,7 +256,7 @@ paths:
     put:
       tags:
         - Application
-      summary: Update a application basic information by the logged in developer.
+      summary: Update an application basic information by the logged in developer.
       operationId: updateDeveloperApplication
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
@@ -279,7 +279,7 @@ paths:
     delete:
       tags:
         - Application
-      summary: Delete a application by the logged in developer.
+      summary: Delete an application by the logged in developer.
       operationId: deleteDeveloperApplication
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
@@ -651,6 +651,12 @@ components:
         name:
           type: string
           description: The name of the Dynamic Client Registration (DCR) Provider.
+        provider_type:
+          type: string
+          enum:
+            - oidc
+            - http_bridge
+          description: The type of DCR provider.
         issuer:
           type: string
           description: The issuer URL of the Authorization Server.
@@ -970,6 +976,11 @@ components:
                 client_secret:
                   type: string
                   description: The client secret is only returned upon creation.
+                client_secret_expires_at:
+                  type: integer
+                  format: int64
+                  nullable: true
+                  description: The Unix timestamp (seconds) when the client secret expires. A value of 0 means the secret does not expire (per RFC 7591). Null or absent means the expiry is unknown.
                 redirect_uris:
                   type: array
                   description: The redirect URIs.
@@ -1105,6 +1116,7 @@ components:
       type: object
       required:
         - type
+        - oauth
       additionalProperties: false
       properties:
         type:
@@ -1132,6 +1144,7 @@ components:
       oneOf:
         - $ref: "#/components/schemas/RegenerateKeyAuthApplicationCredentialReq"
         - $ref: "#/components/schemas/RegenerateBasicAuthApplicationCredentialReq"
+        - $ref: "#/components/schemas/RegenerateOAuthApplicationCredentialReq"
     RegenerateKeyAuthApplicationCredentialReq:
       description: Regenerate a Key Auth application credential request.
       type: object
@@ -1175,6 +1188,18 @@ components:
             password:
               type: string
               description: User password.
+    RegenerateOAuthApplicationCredentialReq:
+      description: Regenerate an OAuth application credential (rotate client secret).
+      type: object
+      required:
+        - type
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+            - oauth
+          description: The credential type.
     Subscription:
       type: object
       required:
