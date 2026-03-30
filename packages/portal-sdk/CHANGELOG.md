@@ -1,3 +1,14 @@
+## 1.1.0 (2026-03-30)
+
+### 🚀 Features
+
+- feat: support oauth secret regeneration ([#10](https://github.com/api7/portal-sdk-typescript/pull/10))
+
+### 🩹 Fixes
+
+- chore: lock github action tags for security ([#11](https://github.com/api7/portal-sdk-typescript/pull/11))
+- chore: upgrade toolchain and dependencies ([#9](https://github.com/api7/portal-sdk-typescript/pull/9))
+
 ## 1.0.1 (2026-01-05)
 
 ### 🩹 Fixes
