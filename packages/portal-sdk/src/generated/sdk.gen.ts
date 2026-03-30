@@ -116,7 +116,7 @@ export const listDeveloperApplications = <ThrowOnError extends boolean = false>(
 });
 
 /**
- * Create a application by the logged in developer.
+ * Create an application by the logged in developer.
  */
 export const createDeveloperApplication = <ThrowOnError extends boolean = false>(options?: Options<CreateDeveloperApplicationData, ThrowOnError>) => (options?.client ?? client).post<CreateDeveloperApplicationResponses, CreateDeveloperApplicationErrors, ThrowOnError>({
     responseTransformer: createDeveloperApplicationResponseTransformer,
@@ -130,12 +130,12 @@ export const createDeveloperApplication = <ThrowOnError extends boolean = false>
 });
 
 /**
- * Delete a application by the logged in developer.
+ * Delete an application by the logged in developer.
  */
 export const deleteDeveloperApplication = <ThrowOnError extends boolean = false>(options: Options<DeleteDeveloperApplicationData, ThrowOnError>) => (options.client ?? client).delete<DeleteDeveloperApplicationResponses, DeleteDeveloperApplicationErrors, ThrowOnError>({ url: '/api/applications/{application_id}', ...options });
 
 /**
- * Get a application for the logged in developer.
+ * Get an application for the logged in developer.
  */
 export const getDeveloperApplication = <ThrowOnError extends boolean = false>(options: Options<GetDeveloperApplicationData, ThrowOnError>) => (options.client ?? client).get<GetDeveloperApplicationResponses, GetDeveloperApplicationErrors, ThrowOnError>({
     responseTransformer: getDeveloperApplicationResponseTransformer,
@@ -145,7 +145,7 @@ export const getDeveloperApplication = <ThrowOnError extends boolean = false>(op
 });
 
 /**
- * Update a application basic information by the logged in developer.
+ * Update an application basic information by the logged in developer.
  */
 export const updateDeveloperApplication = <ThrowOnError extends boolean = false>(options: Options<UpdateDeveloperApplicationData, ThrowOnError>) => (options.client ?? client).put<UpdateDeveloperApplicationResponses, UpdateDeveloperApplicationErrors, ThrowOnError>({
     responseTransformer: updateDeveloperApplicationResponseTransformer,

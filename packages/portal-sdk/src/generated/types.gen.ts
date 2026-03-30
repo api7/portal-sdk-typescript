@@ -69,6 +69,10 @@ export type DcrProviderForDeveloper = {
      */
     name: string;
     /**
+     * The type of DCR provider.
+     */
+    provider_type?: 'oidc' | 'http_bridge';
+    /**
      * The issuer URL of the Authorization Server.
      */
     issuer: string;
@@ -293,7 +297,7 @@ export type OAuthApplicationCredentialBasics = ApplicationCredentialBasicsCommon
          */
         client_id: string;
         /**
-         * The client secret is only returned upon creation.
+         * The client secret is only returned upon creation or regeneration.
          */
         client_secret?: string;
         /**
@@ -402,7 +406,7 @@ export type UpdateOAuthApplicationCredentialReq = {
     type: 'oauth';
     desc?: Description;
     labels?: LabelsMap;
-    oauth?: {
+    oauth: {
         /**
          * The redirect URIs.
          */
@@ -413,7 +417,7 @@ export type UpdateOAuthApplicationCredentialReq = {
 /**
  * Regenerate an application credential request.
  */
-export type RegenerateApplicationCredentialReq = RegenerateKeyAuthApplicationCredentialReq | RegenerateBasicAuthApplicationCredentialReq;
+export type RegenerateApplicationCredentialReq = RegenerateKeyAuthApplicationCredentialReq | RegenerateBasicAuthApplicationCredentialReq | RegenerateOAuthApplicationCredentialReq;
 
 /**
  * Regenerate a Key Auth application credential request.
@@ -449,6 +453,16 @@ export type RegenerateBasicAuthApplicationCredentialReq = {
          */
         password: string;
     };
+};
+
+/**
+ * Regenerate an OAuth application credential (rotate client secret).
+ */
+export type RegenerateOAuthApplicationCredentialReq = {
+    /**
+     * The credential type.
+     */
+    type: 'oauth';
 };
 
 export type Subscription = {
