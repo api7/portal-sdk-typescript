@@ -297,13 +297,9 @@ export type OAuthApplicationCredentialBasics = ApplicationCredentialBasicsCommon
          */
         client_id: string;
         /**
-         * The client secret is only returned upon creation.
+         * The client secret is only returned upon creation or regeneration.
          */
         client_secret?: string;
-        /**
-         * The Unix timestamp (seconds) when the client secret expires. A value of 0 means the secret does not expire (per RFC 7591). Null or absent means the expiry is unknown.
-         */
-        client_secret_expires_at?: bigint | null;
         /**
          * The redirect URIs.
          */

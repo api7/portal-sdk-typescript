@@ -975,12 +975,7 @@ components:
                   description: The client ID.
                 client_secret:
                   type: string
-                  description: The client secret is only returned upon creation.
-                client_secret_expires_at:
-                  type: integer
-                  format: int64
-                  nullable: true
-                  description: The Unix timestamp (seconds) when the client secret expires. A value of 0 means the secret does not expire (per RFC 7591). Null or absent means the expiry is unknown.
+                  description: The client secret is only returned upon creation or regeneration.
                 redirect_uris:
                   type: array
                   description: The redirect URIs.
