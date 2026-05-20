@@ -21,7 +21,6 @@ info:
 servers: []
 security:
   - BearerAuth: []
-    DeveloperIDHeader: []
 paths:
   /api/developers:
     get:
@@ -141,6 +140,9 @@ paths:
         - API Product
       summary: Create a subscription for an API Product.
       operationId: createAPIProductSubscription
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/APIProductID"
       requestBody:
@@ -164,6 +166,9 @@ paths:
         - Subscription
       summary: List subscriptions.
       operationId: listSubscriptions
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/APIProductIDInQuery"
         - $ref: "#/components/parameters/ApplicationIDInQuery"
@@ -187,6 +192,9 @@ paths:
         - Subscription
       summary: Create a subscription for an API Product
       operationId: createSubscription
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       requestBody:
         required: true
         content:
@@ -208,6 +216,9 @@ paths:
         - Subscription
       summary: Unsubscribe an API product for the given application
       operationId: deleteSubscription
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/SubscriptionID"
       responses:
@@ -227,6 +238,9 @@ paths:
         - Application
       summary: Create an application by the logged in developer.
       operationId: createDeveloperApplication
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       requestBody:
         required: true
         content:
@@ -247,6 +261,9 @@ paths:
         - Application
       summary: List all applications for the logged in developer.
       operationId: listDeveloperApplications
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/APIProductIDInQuery"
         - $ref: "#/components/parameters/Search"
@@ -270,6 +287,9 @@ paths:
         - Application
       summary: Get an application for the logged in developer.
       operationId: getDeveloperApplication
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       responses:
@@ -288,6 +308,9 @@ paths:
         - Application
       summary: Update an application basic information by the logged in developer.
       operationId: updateDeveloperApplication
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       requestBody:
@@ -312,6 +335,9 @@ paths:
         - Application
       summary: Delete an application by the logged in developer.
       operationId: deleteDeveloperApplication
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       responses:
@@ -331,6 +357,9 @@ paths:
         - Credential
       summary: Create an application credential
       operationId: createApplicationCredential
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       requestBody:
@@ -353,6 +382,9 @@ paths:
         - Credential
       summary: List all credentials for the logged in developer
       operationId: listApplicationCredentials
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/AuthMethod"
@@ -378,6 +410,9 @@ paths:
         - Credential
       summary: Get an application credential for Developer Portal
       operationId: getApplicationCredential
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/ApplicationCredentialID"
@@ -397,6 +432,9 @@ paths:
         - Credential
       summary: Update an application credential for Developer Portal
       operationId: upsertApplicationCredential
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/ApplicationCredentialID"
@@ -422,6 +460,9 @@ paths:
         - Credential
       summary: Delete an application credential for Developer Portal
       operationId: deleteApplicationCredential
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/ApplicationCredentialID"
@@ -442,6 +483,9 @@ paths:
         - Credential
       summary: Regenerate an application credential auth conf
       operationId: regenerateApplicationCredential
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/ApplicationCredentialID"
@@ -469,6 +513,9 @@ paths:
       summary: Get API Calls
       description: Retrieve a list of API calls made by the user.
       operationId: getApiCalls
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationsIDs"
         - $ref: "#/components/parameters/APIProductIDs"
@@ -490,6 +537,9 @@ paths:
         - Credential
       summary: List all Credentials
       operationId: listCredentials
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/ApplicationsIDs"
         - $ref: "#/components/parameters/AuthMethod"
@@ -515,6 +565,9 @@ paths:
         - Label
       summary: Get all labels of a resource type
       operationId: listLabels
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/DeveloperPortalLabelResourceType"
       responses:
@@ -532,6 +585,9 @@ paths:
         - System Settings
       summary: Get SMTP server settings status
       operationId: getSMTPServerStatus
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       description: Get SMTP server settings status.
       responses:
         "200":
@@ -565,6 +621,9 @@ paths:
         - DCR Provider
       summary: List all DCR providers
       operationId: listDCRProviders
+      security:
+        - BearerAuth: []
+          DeveloperIDHeader: []
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/PageSize"
