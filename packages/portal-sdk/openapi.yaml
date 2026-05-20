@@ -1393,7 +1393,7 @@ components:
         enum:
           - created_at
           - updated_at
-        description: "Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`."
+        description: "Field used to order resources, either `created_at` or `updated_at`."
     Search:
       name: search
       in: query
