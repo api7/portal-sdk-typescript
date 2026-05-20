@@ -95,6 +95,8 @@ paths:
         - API Product
       summary: List all API products
       operationId: listAPIProducts
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/PageSize"
@@ -118,6 +120,8 @@ paths:
         - API Product
       summary: Get an API Product for Developer Portal
       operationId: getAPIProduct
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/APIProductID"
       responses:
