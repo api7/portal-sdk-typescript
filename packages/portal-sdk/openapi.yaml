@@ -10,10 +10,13 @@ info:
 
     ## Authentication
 
-    Every request must include both credentials:
+    Every request must include a Developer Portal token:
 
     - **Bearer Token**: Pass a valid Developer Portal token in the `Authorization` HTTP header.
-    - **Developer ID**: Pass the active developer ID in the `X-Portal-Developer-ID` HTTP header.
+
+    Most developer resource requests must also include the active developer ID:
+
+    - **Developer ID**: Pass the active developer ID in the `X-Portal-Developer-ID` HTTP header where required by the operation.
   version: 0.11.0
 servers: []
 security:
@@ -26,6 +29,8 @@ paths:
         - Developer
       summary: List Developers
       operationId: listDevelopers
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/PageSize"
@@ -46,6 +51,8 @@ paths:
         - Developer
       summary: Create a developer
       operationId: createDeveloper
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -67,6 +74,8 @@ paths:
         - Developer
       summary: Delete a developer
       operationId: deleteDeveloper
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/DeveloperID"
       responses:
@@ -535,6 +544,8 @@ paths:
         - System Settings
       summary: Get public access settings
       operationId: getPublicAccessSettings
+      security:
+        - BearerAuth: []
       responses:
         "200":
           $ref: "#/components/responses/PortalPublicAccessResponse"
