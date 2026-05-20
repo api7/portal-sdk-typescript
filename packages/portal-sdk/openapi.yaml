@@ -1,11 +1,24 @@
 openapi: 3.0.1
 info:
   title: API7 Enterprise Developer Portal APIs
-  description: "API7 Enterprise Developer Portal APIs are RESTful APIs that allow you to create and manage developer portal resources. "
+  description: |-
+    API7 Enterprise Developer Portal APIs are RESTful APIs that allow you to create and manage developer portal resources.
+
+    ## Base URL
+
+    All API paths are relative to your API7 Developer Portal address, e.g. `https://your-api7-developer-portal`.
+
+    ## Authentication
+
+    Every request must include both credentials:
+
+    - **Bearer Token**: Pass a valid Developer Portal token in the `Authorization` HTTP header.
+    - **Developer ID**: Pass the active developer ID in the `X-Portal-Developer-ID` HTTP header.
   version: 0.11.0
 servers: []
 security:
   - BearerAuth: []
+    DeveloperIDHeader: []
 paths:
   /api/developers:
     get:
@@ -34,6 +47,7 @@ paths:
       summary: Create a developer
       operationId: createDeveloper
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -117,6 +131,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/APIProductID"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -160,6 +175,7 @@ paths:
       summary: Create a subscription for an API Product
       operationId: createSubscription
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -199,6 +215,7 @@ paths:
       summary: Create an application by the logged in developer.
       operationId: createDeveloperApplication
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -261,6 +278,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -303,6 +321,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ApplicationID"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -369,6 +388,7 @@ paths:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/ApplicationCredentialID"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -413,6 +433,7 @@ paths:
         - $ref: "#/components/parameters/ApplicationID"
         - $ref: "#/components/parameters/ApplicationCredentialID"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -549,6 +570,10 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+    DeveloperIDHeader:
+      type: apiKey
+      in: header
+      name: X-Portal-Developer-ID
   schemas:
     ID:
       description: The object ID.
@@ -615,7 +640,7 @@ components:
       required:
         - id
         - name
-        - status
+        - state
         - created_at
         - updated_at
       properties:
@@ -626,6 +651,10 @@ components:
           type: string
           description: Developer name.
           example: dev one
+        state:
+          type: string
+          description: Developer state.
+          example: active
         last_active_at:
           $ref: "#/components/schemas/DateTime"
         created_at:
@@ -1364,7 +1393,7 @@ components:
         enum:
           - created_at
           - updated_at
-        description: "Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`."
+        description: "Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`."
     Search:
       name: search
       in: query

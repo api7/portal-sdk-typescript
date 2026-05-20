@@ -53,6 +53,10 @@ export type Developer = {
      * Developer name.
      */
     name: string;
+    /**
+     * Developer state.
+     */
+    state: string;
     last_active_at?: DateTime;
     created_at: DateTime;
     updated_at: DateTime;
@@ -574,12 +578,12 @@ export const Direction = { ASC: 'asc', DESC: 'desc' } as const;
 export type Direction = typeof Direction[keyof typeof Direction];
 
 /**
- * Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`.
+ * Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`.
  */
 export const OrderBy = { CREATED_AT: 'created_at', UPDATED_AT: 'updated_at' } as const;
 
 /**
- * Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`.
+ * Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`.
  */
 export type OrderBy = typeof OrderBy[keyof typeof OrderBy];
 
@@ -774,7 +778,7 @@ export type ListDevelopersResponses = {
 export type ListDevelopersResponse = ListDevelopersResponses[keyof ListDevelopersResponses];
 
 export type CreateDeveloperData = {
-    body?: CreateDeveloperReq;
+    body: CreateDeveloperReq;
     path?: never;
     query?: never;
     url: '/api/developers';
@@ -907,7 +911,7 @@ export type ListApiProductsData = {
          */
         direction?: 'asc' | 'desc';
         /**
-         * Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`.
+         * Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`.
          */
         order_by?: 'created_at' | 'updated_at';
         /**
@@ -1034,7 +1038,7 @@ export type GetApiProductResponses = {
 export type GetApiProductResponse = GetApiProductResponses[keyof GetApiProductResponses];
 
 export type CreateApiProductSubscriptionData = {
-    body?: CreateApiProductSubscriptionReq;
+    body: CreateApiProductSubscriptionReq;
     path: {
         /**
          * The unique identifier of the API product.
@@ -1166,7 +1170,7 @@ export type ListSubscriptionsResponses = {
 export type ListSubscriptionsResponse = ListSubscriptionsResponses[keyof ListSubscriptionsResponses];
 
 export type CreateSubscriptionData = {
-    body?: CreateSubscriptionReq;
+    body: CreateSubscriptionReq;
     path?: never;
     query?: never;
     url: '/api/subscriptions';
@@ -1297,7 +1301,7 @@ export type ListDeveloperApplicationsData = {
          */
         labels?: string;
         /**
-         * Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`.
+         * Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`.
          */
         order_by?: 'created_at' | 'updated_at';
         /**
@@ -1364,7 +1368,7 @@ export type ListDeveloperApplicationsResponses = {
 export type ListDeveloperApplicationsResponse = ListDeveloperApplicationsResponses[keyof ListDeveloperApplicationsResponses];
 
 export type CreateDeveloperApplicationData = {
-    body?: CreateDeveloperApplicationReq;
+    body: CreateDeveloperApplicationReq;
     path?: never;
     query?: never;
     url: '/api/applications';
@@ -1541,7 +1545,7 @@ export type GetDeveloperApplicationResponses = {
 export type GetDeveloperApplicationResponse = GetDeveloperApplicationResponses[keyof GetDeveloperApplicationResponses];
 
 export type UpdateDeveloperApplicationData = {
-    body?: CreateDeveloperApplicationReq;
+    body: CreateDeveloperApplicationReq;
     path: {
         application_id: Id;
     };
@@ -1695,7 +1699,7 @@ export type ListApplicationCredentialsResponses = {
 export type ListApplicationCredentialsResponse = ListApplicationCredentialsResponses[keyof ListApplicationCredentialsResponses];
 
 export type CreateApplicationCredentialData = {
-    body?: CreateApplicationCredentialReq;
+    body: CreateApplicationCredentialReq;
     path: {
         application_id: Id;
     };
@@ -1882,7 +1886,7 @@ export type GetApplicationCredentialResponses = {
 export type GetApplicationCredentialResponse = GetApplicationCredentialResponses[keyof GetApplicationCredentialResponses];
 
 export type UpsertApplicationCredentialData = {
-    body?: UpdateApplicationCredentialReq;
+    body: UpdateApplicationCredentialReq;
     path: {
         application_id: Id;
         /**
@@ -1949,7 +1953,7 @@ export type UpsertApplicationCredentialResponses = {
 export type UpsertApplicationCredentialResponse = UpsertApplicationCredentialResponses[keyof UpsertApplicationCredentialResponses];
 
 export type RegenerateApplicationCredentialData = {
-    body?: RegenerateApplicationCredentialReq;
+    body: RegenerateApplicationCredentialReq;
     path: {
         application_id: Id;
         /**
@@ -2331,7 +2335,7 @@ export type ListDcrProvidersData = {
          */
         direction?: 'asc' | 'desc';
         /**
-         * Ascending or descending order to list the resources, by `created_at` or `updated_by` configured in `order_by`.
+         * Ascending or descending order to list the resources, by `created_at` or `updated_at` configured in `order_by`.
          */
         order_by?: 'created_at' | 'updated_at';
         /**

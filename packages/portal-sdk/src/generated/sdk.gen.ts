@@ -32,14 +32,14 @@ export const listDevelopers = <ThrowOnError extends boolean = false>(options?: O
 /**
  * Create a developer
  */
-export const createDeveloper = <ThrowOnError extends boolean = false>(options?: Options<CreateDeveloperData, ThrowOnError>) => (options?.client ?? client).post<CreateDeveloperResponses, CreateDeveloperErrors, ThrowOnError>({
+export const createDeveloper = <ThrowOnError extends boolean = false>(options: Options<CreateDeveloperData, ThrowOnError>) => (options.client ?? client).post<CreateDeveloperResponses, CreateDeveloperErrors, ThrowOnError>({
     responseTransformer: createDeveloperResponseTransformer,
     responseType: 'json',
     url: '/api/developers',
     ...options,
     headers: {
         'Content-Type': 'application/json',
-        ...options?.headers
+        ...options.headers
     }
 });
 
@@ -91,12 +91,12 @@ export const listSubscriptions = <ThrowOnError extends boolean = false>(options?
 /**
  * Create a subscription for an API Product
  */
-export const createSubscription = <ThrowOnError extends boolean = false>(options?: Options<CreateSubscriptionData, ThrowOnError>) => (options?.client ?? client).post<CreateSubscriptionResponses, CreateSubscriptionErrors, ThrowOnError>({
+export const createSubscription = <ThrowOnError extends boolean = false>(options: Options<CreateSubscriptionData, ThrowOnError>) => (options.client ?? client).post<CreateSubscriptionResponses, CreateSubscriptionErrors, ThrowOnError>({
     url: '/api/subscriptions',
     ...options,
     headers: {
         'Content-Type': 'application/json',
-        ...options?.headers
+        ...options.headers
     }
 });
 
@@ -118,14 +118,14 @@ export const listDeveloperApplications = <ThrowOnError extends boolean = false>(
 /**
  * Create an application by the logged in developer.
  */
-export const createDeveloperApplication = <ThrowOnError extends boolean = false>(options?: Options<CreateDeveloperApplicationData, ThrowOnError>) => (options?.client ?? client).post<CreateDeveloperApplicationResponses, CreateDeveloperApplicationErrors, ThrowOnError>({
+export const createDeveloperApplication = <ThrowOnError extends boolean = false>(options: Options<CreateDeveloperApplicationData, ThrowOnError>) => (options.client ?? client).post<CreateDeveloperApplicationResponses, CreateDeveloperApplicationErrors, ThrowOnError>({
     responseTransformer: createDeveloperApplicationResponseTransformer,
     responseType: 'json',
     url: '/api/applications',
     ...options,
     headers: {
         'Content-Type': 'application/json',
-        ...options?.headers
+        ...options.headers
     }
 });
 
