@@ -53,10 +53,6 @@ export type Developer = {
      * Developer name.
      */
     name: string;
-    /**
-     * Developer state.
-     */
-    state: string;
     last_active_at?: DateTime;
     created_at: DateTime;
     updated_at: DateTime;

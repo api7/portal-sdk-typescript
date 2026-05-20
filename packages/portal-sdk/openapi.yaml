@@ -640,7 +640,6 @@ components:
       required:
         - id
         - name
-        - state
         - created_at
         - updated_at
       properties:
@@ -651,10 +650,6 @@ components:
           type: string
           description: Developer name.
           example: dev one
-        state:
-          type: string
-          description: Developer state.
-          example: active
         last_active_at:
           $ref: "#/components/schemas/DateTime"
         created_at:
