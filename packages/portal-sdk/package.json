@@ -7,6 +7,9 @@
     "url": "https://github.com/api7/portal-sdk-typescript",
     "directory": "packages/portal-sdk"
   },
+  "bugs": {
+    "url": "https://github.com/api7/portal-sdk-typescript/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -34,10 +37,10 @@
     "!**/*.tsbuildinfo"
   ],
   "devDependencies": {
-    "@hey-api/openapi-ts": "0.94.5"
+    "@hey-api/openapi-ts": "0.98.1"
   },
   "dependencies": {
-    "axios": "^1.14.0"
+    "axios": "^1.16.1"
   },
   "nx": {
     "name": "portal-sdk",

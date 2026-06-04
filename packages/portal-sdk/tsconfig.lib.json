@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": "src",
     "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
@@ -20,8 +19,8 @@
   ],
   "references": [],
   "exclude": [
-    "vite.config.mts",
-    "vite.config.mts",
+    "vite.config.ts",
+    "vite.config.ts",
     "vitest.config.ts",
     "vitest.config.mts",
     "src/**/*.test.ts",
