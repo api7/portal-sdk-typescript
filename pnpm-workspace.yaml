@@ -1,4 +1,15 @@
 packages:
-  - "packages/*"
+  - 'packages/*'
 
-autoInstallPeers: true
+allowBuilds:
+  '@swc/core': false
+  esbuild: false
+  nx: false
+
+autoInstallPeers: false
+
+overrides:
+  '@isaacs/brace-expansion': '>=5.0.1'
+  'brace-expansion': '>=5.0.6'
+  'minimatch': '>=9.0.7'
+  'rollup': '>=4.61.0'

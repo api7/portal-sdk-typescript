@@ -1,7 +1,7 @@
 /// <reference types='vitest' />
 import * as path from 'path';
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
+import dts from 'unplugin-dts/vite';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,

@@ -5,3 +5,5 @@
 /.nx/workspace-data
 
 /packages/portal-sdk/src/generated
+
+.nx/self-healing
