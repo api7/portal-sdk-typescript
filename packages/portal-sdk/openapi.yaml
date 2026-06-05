@@ -544,6 +544,201 @@ paths:
           $ref: "#/components/responses/response401"
         "500":
           $ref: "#/components/responses/response500"
+  /api/approvals:
+    get:
+      tags:
+        - Approval
+      summary: List approvals
+      operationId: listApprovals
+      description: List pending and processed approval workflow items for the current portal, such as API product subscriptions and developer registrations. Results are scoped to the portal of the request token.
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            description: Approval status.
+            enum:
+              - pending
+              - finished
+        - name: result
+          in: query
+          schema:
+            type: string
+            description: Approval outcome.
+            enum:
+              - accepted
+              - rejected
+              - cancelled
+        - name: event
+          in: query
+          schema:
+            type: string
+            description: Approval event.
+            enum:
+              - api_product_subscription
+              - developer_registration
+        - name: resource_type
+          in: query
+          schema:
+            type: string
+            description: Resource type.
+            enum:
+              - api_product
+              - developer
+        - name: resource_name
+          in: query
+          description: Resource name.
+          schema:
+            type: string
+        - name: operator_name
+          description: Operator name.
+          in: query
+          schema:
+            type: string
+        - name: applicant_name
+          in: query
+          description: Applicant name.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Direction"
+        - name: order_by
+          in: query
+          schema:
+            type: string
+            default: applied_at
+            description: Index to order approvals by.
+            enum:
+              - applied_at
+              - resource_name
+              - operated_at
+        - $ref: "#/components/parameters/Search"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - list
+                  - total
+                properties:
+                  list:
+                    type: array
+                    description: An array of approvals.
+                    items:
+                      allOf:
+                        - $ref: "#/components/schemas/ResourceBasics"
+                        - type: object
+                          required:
+                            - event
+                            - status
+                            - resource_type
+                          properties:
+                            event:
+                              $ref: "#/paths/~1api~1approvals/get/parameters/2/schema"
+                            status:
+                              $ref: "#/paths/~1api~1approvals/get/parameters/0/schema"
+                            result:
+                              $ref: "#/paths/~1api~1approvals/get/parameters/1/schema"
+                            resource_type:
+                              $ref: "#/paths/~1api~1approvals/get/parameters/3/schema"
+                            resource_id:
+                              type: string
+                              description: The id of the resource being approved (e.g. the API product id).
+                            resource_name:
+                              type: string
+                              description: The name of the resource being approved.
+                            applicant_id:
+                              type: string
+                              description: The id of the developer that submitted the request.
+                            applicant_name:
+                              type: string
+                              description: The name of the developer that submitted the request.
+                            operator_id:
+                              type: string
+                              description: The id of who processed the request. The literal value `developer_portal_admin` marks an approval processed through the developer portal by a platform admin; in that case read the real operator from `metadata`.
+                            operator_name:
+                              type: string
+                              description: The name of who processed the request.
+                            metadata:
+                              type: string
+                              description: Opaque JSON string with extra processing context. When `operator_id` is `developer_portal_admin`, it holds the acting platform admin's identity, e.g. `{"operator_id":"...","operator_name":"..."}`.
+                            applied_at:
+                              $ref: "#/components/schemas/DateTime"
+                            operated_at:
+                              $ref: "#/components/schemas/DateTime"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/approvals/{approval_id}/accept:
+    post:
+      tags:
+        - Approval
+      summary: Accept an approval request
+      operationId: acceptApproval
+      description: Approve a specific workflow request and apply the corresponding portal-side change, such as granting an API product subscription or accepting a developer sign-up.
+      parameters:
+        - name: approval_id
+          in: path
+          description: Approval ID.
+          required: true
+          schema:
+            $ref: "#/components/schemas/ID"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  type: string
+                  description: Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
+      responses:
+        "200":
+          $ref: "#/components/responses/response200"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
+  /api/approvals/{approval_id}/reject:
+    post:
+      tags:
+        - Approval
+      summary: Reject an approval request
+      operationId: rejectApproval
+      description: Reject a specific workflow approval request so the requested action is not applied.
+      parameters:
+        - $ref: "#/paths/~1api~1approvals~1%7Bapproval_id%7D~1accept/post/parameters/0"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/paths/~1api~1approvals~1%7Bapproval_id%7D~1accept/post/requestBody/content/application~1json/schema"
+      responses:
+        "200":
+          $ref: "#/components/responses/response200"
+        "400":
+          $ref: "#/components/responses/response400"
+        "401":
+          $ref: "#/components/responses/response401"
+        "404":
+          $ref: "#/components/responses/response404"
+        "500":
+          $ref: "#/components/responses/response500"
 components:
   securitySchemes:
     BearerAuth:
@@ -926,6 +1121,10 @@ components:
             key-auth:
               type: object
               description: Key Auth configuration.
+              properties:
+                key:
+                  type: string
+                  description: The key is only returned upon creation or regeneration.
     BasicAuthApplicationCredentialBasics:
       description: Basic Auth application credential response.
       allOf:
@@ -945,6 +1144,13 @@ components:
             basic-auth:
               type: object
               description: Basic Auth configuration.
+              properties:
+                username:
+                  type: string
+                  description: The username.
+                password:
+                  type: string
+                  description: The password is only returned upon creation or regeneration.
     OAuthApplicationCredentialBasics:
       description: OAuth application credential response.
       allOf:

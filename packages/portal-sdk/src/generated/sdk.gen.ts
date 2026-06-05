@@ -2,8 +2,8 @@
 
 import { client } from './client.gen.js';
 import type { Client, Options as Options2, TDataShape } from './client/index.js';
-import { createApplicationCredentialResponseTransformer, createDeveloperApplicationResponseTransformer, createDeveloperResponseTransformer, getApplicationCredentialResponseTransformer, getDeveloperApplicationResponseTransformer, listApplicationCredentialsResponseTransformer, listCredentialsResponseTransformer, listDeveloperApplicationsResponseTransformer, listDevelopersResponseTransformer, listSubscriptionsResponseTransformer, regenerateApplicationCredentialResponseTransformer, updateDeveloperApplicationResponseTransformer, upsertApplicationCredentialResponseTransformer } from './transformers.gen.js';
-import type { CreateApiProductSubscriptionData, CreateApiProductSubscriptionErrors, CreateApiProductSubscriptionResponses, CreateApplicationCredentialData, CreateApplicationCredentialErrors, CreateApplicationCredentialResponses, CreateDeveloperApplicationData, CreateDeveloperApplicationErrors, CreateDeveloperApplicationResponses, CreateDeveloperData, CreateDeveloperErrors, CreateDeveloperResponses, CreateSubscriptionData, CreateSubscriptionErrors, CreateSubscriptionResponses, DeleteApplicationCredentialData, DeleteApplicationCredentialErrors, DeleteApplicationCredentialResponses, DeleteDeveloperApplicationData, DeleteDeveloperApplicationErrors, DeleteDeveloperApplicationResponses, DeleteDeveloperData, DeleteDeveloperErrors, DeleteDeveloperResponses, DeleteSubscriptionData, DeleteSubscriptionErrors, DeleteSubscriptionResponses, GetApiCallsData, GetApiCallsErrors, GetApiCallsResponses, GetApiProductData, GetApiProductErrors, GetApiProductResponses, GetApplicationCredentialData, GetApplicationCredentialErrors, GetApplicationCredentialResponses, GetDeveloperApplicationData, GetDeveloperApplicationErrors, GetDeveloperApplicationResponses, GetPublicAccessSettingsData, GetPublicAccessSettingsErrors, GetPublicAccessSettingsResponses, GetSmtpServerStatusData, GetSmtpServerStatusErrors, GetSmtpServerStatusResponses, ListApiProductsData, ListApiProductsErrors, ListApiProductsResponses, ListApplicationCredentialsData, ListApplicationCredentialsErrors, ListApplicationCredentialsResponses, ListCredentialsData, ListCredentialsErrors, ListCredentialsResponses, ListDcrProvidersData, ListDcrProvidersErrors, ListDcrProvidersResponses, ListDeveloperApplicationsData, ListDeveloperApplicationsErrors, ListDeveloperApplicationsResponses, ListDevelopersData, ListDevelopersErrors, ListDevelopersResponses, ListLabelsData, ListLabelsErrors, ListLabelsResponses, ListSubscriptionsData, ListSubscriptionsErrors, ListSubscriptionsResponses, RegenerateApplicationCredentialData, RegenerateApplicationCredentialErrors, RegenerateApplicationCredentialResponses, UpdateDeveloperApplicationData, UpdateDeveloperApplicationErrors, UpdateDeveloperApplicationResponses, UpsertApplicationCredentialData, UpsertApplicationCredentialErrors, UpsertApplicationCredentialResponses } from './types.gen.js';
+import { createApplicationCredentialResponseTransformer, createDeveloperApplicationResponseTransformer, createDeveloperResponseTransformer, getApplicationCredentialResponseTransformer, getDeveloperApplicationResponseTransformer, listApplicationCredentialsResponseTransformer, listApprovalsResponseTransformer, listCredentialsResponseTransformer, listDeveloperApplicationsResponseTransformer, listDevelopersResponseTransformer, listSubscriptionsResponseTransformer, regenerateApplicationCredentialResponseTransformer, updateDeveloperApplicationResponseTransformer, upsertApplicationCredentialResponseTransformer } from './transformers.gen.js';
+import type { AcceptApprovalData, AcceptApprovalErrors, AcceptApprovalResponses, CreateApiProductSubscriptionData, CreateApiProductSubscriptionErrors, CreateApiProductSubscriptionResponses, CreateApplicationCredentialData, CreateApplicationCredentialErrors, CreateApplicationCredentialResponses, CreateDeveloperApplicationData, CreateDeveloperApplicationErrors, CreateDeveloperApplicationResponses, CreateDeveloperData, CreateDeveloperErrors, CreateDeveloperResponses, CreateSubscriptionData, CreateSubscriptionErrors, CreateSubscriptionResponses, DeleteApplicationCredentialData, DeleteApplicationCredentialErrors, DeleteApplicationCredentialResponses, DeleteDeveloperApplicationData, DeleteDeveloperApplicationErrors, DeleteDeveloperApplicationResponses, DeleteDeveloperData, DeleteDeveloperErrors, DeleteDeveloperResponses, DeleteSubscriptionData, DeleteSubscriptionErrors, DeleteSubscriptionResponses, GetApiCallsData, GetApiCallsErrors, GetApiCallsResponses, GetApiProductData, GetApiProductErrors, GetApiProductResponses, GetApplicationCredentialData, GetApplicationCredentialErrors, GetApplicationCredentialResponses, GetDeveloperApplicationData, GetDeveloperApplicationErrors, GetDeveloperApplicationResponses, GetPublicAccessSettingsData, GetPublicAccessSettingsErrors, GetPublicAccessSettingsResponses, GetSmtpServerStatusData, GetSmtpServerStatusErrors, GetSmtpServerStatusResponses, ListApiProductsData, ListApiProductsErrors, ListApiProductsResponses, ListApplicationCredentialsData, ListApplicationCredentialsErrors, ListApplicationCredentialsResponses, ListApprovalsData, ListApprovalsErrors, ListApprovalsResponses, ListCredentialsData, ListCredentialsErrors, ListCredentialsResponses, ListDcrProvidersData, ListDcrProvidersErrors, ListDcrProvidersResponses, ListDeveloperApplicationsData, ListDeveloperApplicationsErrors, ListDeveloperApplicationsResponses, ListDevelopersData, ListDevelopersErrors, ListDevelopersResponses, ListLabelsData, ListLabelsErrors, ListLabelsResponses, ListSubscriptionsData, ListSubscriptionsErrors, ListSubscriptionsResponses, RegenerateApplicationCredentialData, RegenerateApplicationCredentialErrors, RegenerateApplicationCredentialResponses, RejectApprovalData, RejectApprovalErrors, RejectApprovalResponses, UpdateDeveloperApplicationData, UpdateDeveloperApplicationErrors, UpdateDeveloperApplicationResponses, UpsertApplicationCredentialData, UpsertApplicationCredentialErrors, UpsertApplicationCredentialResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -282,4 +282,44 @@ export const listDcrProviders = <ThrowOnError extends boolean = false>(options?:
     responseType: 'json',
     url: '/api/dcr_providers',
     ...options
+});
+
+/**
+ * List approvals
+ *
+ * List pending and processed approval workflow items for the current portal, such as API product subscriptions and developer registrations. Results are scoped to the portal of the request token.
+ */
+export const listApprovals = <ThrowOnError extends boolean = false>(options?: Options<ListApprovalsData, ThrowOnError>) => (options?.client ?? client).get<ListApprovalsResponses, ListApprovalsErrors, ThrowOnError>({
+    responseTransformer: listApprovalsResponseTransformer,
+    responseType: 'json',
+    url: '/api/approvals',
+    ...options
+});
+
+/**
+ * Accept an approval request
+ *
+ * Approve a specific workflow request and apply the corresponding portal-side change, such as granting an API product subscription or accepting a developer sign-up.
+ */
+export const acceptApproval = <ThrowOnError extends boolean = false>(options: Options<AcceptApprovalData, ThrowOnError>) => (options.client ?? client).post<AcceptApprovalResponses, AcceptApprovalErrors, ThrowOnError>({
+    url: '/api/approvals/{approval_id}/accept',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Reject an approval request
+ *
+ * Reject a specific workflow approval request so the requested action is not applied.
+ */
+export const rejectApproval = <ThrowOnError extends boolean = false>(options: Options<RejectApprovalData, ThrowOnError>) => (options.client ?? client).post<RejectApprovalResponses, RejectApprovalErrors, ThrowOnError>({
+    url: '/api/approvals/{approval_id}/reject',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });

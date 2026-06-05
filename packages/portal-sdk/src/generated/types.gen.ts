@@ -257,7 +257,10 @@ export type KeyAuthApplicationCredentialBasics = ApplicationCredentialBasicsComm
      * Key Auth configuration.
      */
     'key-auth'?: {
-        [key: string]: unknown;
+        /**
+         * The key is only returned upon creation or regeneration.
+         */
+        key?: string;
     };
 };
 
@@ -274,7 +277,14 @@ export type BasicAuthApplicationCredentialBasics = ApplicationCredentialBasicsCo
      * Basic Auth configuration.
      */
     'basic-auth'?: {
-        [key: string]: unknown;
+        /**
+         * The username.
+         */
+        username?: string;
+        /**
+         * The password is only returned upon creation or regeneration.
+         */
+        password?: string;
     };
 };
 
@@ -2388,3 +2398,297 @@ export type ListDcrProvidersResponses = {
 };
 
 export type ListDcrProvidersResponse = ListDcrProvidersResponses[keyof ListDcrProvidersResponses];
+
+export type ListApprovalsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Approval status.
+         */
+        status?: 'pending' | 'finished';
+        /**
+         * Approval outcome.
+         */
+        result?: 'accepted' | 'rejected' | 'cancelled';
+        /**
+         * Approval event.
+         */
+        event?: 'api_product_subscription' | 'developer_registration';
+        /**
+         * Resource type.
+         */
+        resource_type?: 'api_product' | 'developer';
+        /**
+         * Resource name.
+         */
+        resource_name?: string;
+        /**
+         * Operator name.
+         */
+        operator_name?: string;
+        /**
+         * Applicant name.
+         */
+        applicant_name?: string;
+        /**
+         * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
+         */
+        page?: number;
+        /**
+         * Number of resources listed per page. Used together with `page`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
+         */
+        page_size?: number;
+        /**
+         * Order to list the resources by. The sorting index follows the configuration of `order_by`.
+         */
+        direction?: 'asc' | 'desc';
+        /**
+         * Index to order approvals by.
+         */
+        order_by?: 'applied_at' | 'resource_name' | 'operated_at';
+        /**
+         * Condition to search resources by.
+         */
+        search?: string;
+    };
+    url: '/api/approvals';
+};
+
+export type ListApprovalsErrors = {
+    /**
+     * Bad request.
+     */
+    400: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 400;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Unauthorized.
+     */
+    401: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 401;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Internal server error.
+     */
+    500: unknown;
+};
+
+export type ListApprovalsError = ListApprovalsErrors[keyof ListApprovalsErrors];
+
+export type ListApprovalsResponses = {
+    200: {
+        /**
+         * An array of approvals.
+         */
+        list: Array<ResourceBasics & {
+            /**
+             * Approval event.
+             */
+            event: 'api_product_subscription' | 'developer_registration';
+            /**
+             * Approval status.
+             */
+            status: 'pending' | 'finished';
+            /**
+             * Approval outcome.
+             */
+            result?: 'accepted' | 'rejected' | 'cancelled';
+            /**
+             * Resource type.
+             */
+            resource_type: 'api_product' | 'developer';
+            /**
+             * The id of the resource being approved (e.g. the API product id).
+             */
+            resource_id?: string;
+            /**
+             * The name of the resource being approved.
+             */
+            resource_name?: string;
+            /**
+             * The id of the developer that submitted the request.
+             */
+            applicant_id?: string;
+            /**
+             * The name of the developer that submitted the request.
+             */
+            applicant_name?: string;
+            /**
+             * The id of who processed the request. The literal value `developer_portal_admin` marks an approval processed through the developer portal by a platform admin; in that case read the real operator from `metadata`.
+             */
+            operator_id?: string;
+            /**
+             * The name of who processed the request.
+             */
+            operator_name?: string;
+            /**
+             * Opaque JSON string with extra processing context. When `operator_id` is `developer_portal_admin`, it holds the acting platform admin's identity, e.g. `{"operator_id":"...","operator_name":"..."}`.
+             */
+            metadata?: string;
+            applied_at?: DateTime;
+            operated_at?: DateTime;
+        }>;
+        total: Total;
+    };
+};
+
+export type ListApprovalsResponse = ListApprovalsResponses[keyof ListApprovalsResponses];
+
+export type AcceptApprovalData = {
+    body?: {
+        /**
+         * Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
+         */
+        metadata?: string;
+    };
+    path: {
+        /**
+         * Approval ID.
+         */
+        approval_id: Id;
+    };
+    query?: never;
+    url: '/api/approvals/{approval_id}/accept';
+};
+
+export type AcceptApprovalErrors = {
+    /**
+     * Bad request.
+     */
+    400: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 400;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Unauthorized.
+     */
+    401: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 401;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Resource not found.
+     */
+    404: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 404;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Internal server error.
+     */
+    500: unknown;
+};
+
+export type AcceptApprovalError = AcceptApprovalErrors[keyof AcceptApprovalErrors];
+
+export type AcceptApprovalResponses = {
+    /**
+     * The operation was successful.
+     */
+    200: unknown;
+};
+
+export type RejectApprovalData = {
+    body?: {
+        /**
+         * Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
+         */
+        metadata?: string;
+    };
+    path: {
+        /**
+         * Approval ID.
+         */
+        approval_id: Id;
+    };
+    query?: never;
+    url: '/api/approvals/{approval_id}/reject';
+};
+
+export type RejectApprovalErrors = {
+    /**
+     * Bad request.
+     */
+    400: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 400;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Unauthorized.
+     */
+    401: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 401;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Resource not found.
+     */
+    404: {
+        /**
+         * The HTTP status code of the error response.
+         */
+        status: 404;
+        /**
+         * The error message.
+         */
+        message: string;
+    };
+    /**
+     * Internal server error.
+     */
+    500: unknown;
+};
+
+export type RejectApprovalError = RejectApprovalErrors[keyof RejectApprovalErrors];
+
+export type RejectApprovalResponses = {
+    /**
+     * The operation was successful.
+     */
+    200: unknown;
+};
