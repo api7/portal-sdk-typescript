@@ -564,6 +564,57 @@ export const ApiProductStatus = { DRAFT: 'draft', PUBLISHED: 'published' } as co
 export type ApiProductStatus = typeof ApiProductStatus[keyof typeof ApiProductStatus];
 
 /**
+ * Approval status.
+ */
+export const ApprovalStatus = { PENDING: 'pending', FINISHED: 'finished' } as const;
+
+/**
+ * Approval status.
+ */
+export type ApprovalStatus = typeof ApprovalStatus[keyof typeof ApprovalStatus];
+
+/**
+ * Approval outcome.
+ */
+export const ApprovalResult = {
+    ACCEPTED: 'accepted',
+    REJECTED: 'rejected',
+    CANCELLED: 'cancelled'
+} as const;
+
+/**
+ * Approval outcome.
+ */
+export type ApprovalResult = typeof ApprovalResult[keyof typeof ApprovalResult];
+
+/**
+ * Approval event.
+ */
+export const ApprovalEvent = { API_PRODUCT_SUBSCRIPTION: 'api_product_subscription', DEVELOPER_REGISTRATION: 'developer_registration' } as const;
+
+/**
+ * Approval event.
+ */
+export type ApprovalEvent = typeof ApprovalEvent[keyof typeof ApprovalEvent];
+
+/**
+ * Resource type.
+ */
+export const ApprovalResourceType = { API_PRODUCT: 'api_product', DEVELOPER: 'developer' } as const;
+
+/**
+ * Resource type.
+ */
+export type ApprovalResourceType = typeof ApprovalResourceType[keyof typeof ApprovalResourceType];
+
+export type ApprovalActionReq = {
+    /**
+     * Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
+     */
+    metadata?: string;
+};
+
+/**
  * Page number of the listed resources. Used together with `page_size`. For example, when there are 13 resources in total, if the query parameters are `page=1&page_size=10`, the GET response will show the route `total` as `13` and display 10 resources in the first page. If the query parameters are `page=2&page_size=10`, the GET response will show the route `total` as `13` and display 3 resources in the second page.
  */
 export type Page = number;
@@ -707,6 +758,11 @@ export const DeveloperPortalLabelResourceType = {
 } as const;
 
 export type DeveloperPortalLabelResourceType = typeof DeveloperPortalLabelResourceType[keyof typeof DeveloperPortalLabelResourceType];
+
+/**
+ * Approval ID.
+ */
+export type ApprovalId = Id;
 
 export type ListDevelopersData = {
     body?: never;
@@ -2403,22 +2459,10 @@ export type ListApprovalsData = {
     body?: never;
     path?: never;
     query?: {
-        /**
-         * Approval status.
-         */
-        status?: 'pending' | 'finished';
-        /**
-         * Approval outcome.
-         */
-        result?: 'accepted' | 'rejected' | 'cancelled';
-        /**
-         * Approval event.
-         */
-        event?: 'api_product_subscription' | 'developer_registration';
-        /**
-         * Resource type.
-         */
-        resource_type?: 'api_product' | 'developer';
+        status?: ApprovalStatus;
+        result?: ApprovalResult;
+        event?: ApprovalEvent;
+        resource_type?: ApprovalResourceType;
         /**
          * Resource name.
          */
@@ -2496,22 +2540,10 @@ export type ListApprovalsResponses = {
          * An array of approvals.
          */
         list: Array<ResourceBasics & {
-            /**
-             * Approval event.
-             */
-            event: 'api_product_subscription' | 'developer_registration';
-            /**
-             * Approval status.
-             */
-            status: 'pending' | 'finished';
-            /**
-             * Approval outcome.
-             */
-            result?: 'accepted' | 'rejected' | 'cancelled';
-            /**
-             * Resource type.
-             */
-            resource_type: 'api_product' | 'developer';
+            event: ApprovalEvent;
+            status: ApprovalStatus;
+            result?: ApprovalResult;
+            resource_type: ApprovalResourceType;
             /**
              * The id of the resource being approved (e.g. the API product id).
              */
@@ -2550,12 +2582,7 @@ export type ListApprovalsResponses = {
 export type ListApprovalsResponse = ListApprovalsResponses[keyof ListApprovalsResponses];
 
 export type AcceptApprovalData = {
-    body?: {
-        /**
-         * Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
-         */
-        metadata?: string;
-    };
+    body?: ApprovalActionReq;
     path: {
         /**
          * Approval ID.
@@ -2622,12 +2649,7 @@ export type AcceptApprovalResponses = {
 };
 
 export type RejectApprovalData = {
-    body?: {
-        /**
-         * Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
-         */
-        metadata?: string;
-    };
+    body?: ApprovalActionReq;
     path: {
         /**
          * Approval ID.

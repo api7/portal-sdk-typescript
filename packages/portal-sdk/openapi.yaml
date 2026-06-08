@@ -555,44 +555,27 @@ paths:
         - name: status
           in: query
           schema:
-            type: string
-            description: Approval status.
-            enum:
-              - pending
-              - finished
+            $ref: "#/components/schemas/ApprovalStatus"
         - name: result
           in: query
           schema:
-            type: string
-            description: Approval outcome.
-            enum:
-              - accepted
-              - rejected
-              - cancelled
+            $ref: "#/components/schemas/ApprovalResult"
         - name: event
           in: query
           schema:
-            type: string
-            description: Approval event.
-            enum:
-              - api_product_subscription
-              - developer_registration
+            $ref: "#/components/schemas/ApprovalEvent"
         - name: resource_type
           in: query
           schema:
-            type: string
-            description: Resource type.
-            enum:
-              - api_product
-              - developer
+            $ref: "#/components/schemas/ApprovalResourceType"
         - name: resource_name
           in: query
           description: Resource name.
           schema:
             type: string
         - name: operator_name
-          description: Operator name.
           in: query
+          description: Operator name.
           schema:
             type: string
         - name: applicant_name
@@ -616,62 +599,7 @@ paths:
         - $ref: "#/components/parameters/Search"
       responses:
         "200":
-          description: ""
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - list
-                  - total
-                properties:
-                  list:
-                    type: array
-                    description: An array of approvals.
-                    items:
-                      allOf:
-                        - $ref: "#/components/schemas/ResourceBasics"
-                        - type: object
-                          required:
-                            - event
-                            - status
-                            - resource_type
-                          properties:
-                            event:
-                              $ref: "#/paths/~1api~1approvals/get/parameters/2/schema"
-                            status:
-                              $ref: "#/paths/~1api~1approvals/get/parameters/0/schema"
-                            result:
-                              $ref: "#/paths/~1api~1approvals/get/parameters/1/schema"
-                            resource_type:
-                              $ref: "#/paths/~1api~1approvals/get/parameters/3/schema"
-                            resource_id:
-                              type: string
-                              description: The id of the resource being approved (e.g. the API product id).
-                            resource_name:
-                              type: string
-                              description: The name of the resource being approved.
-                            applicant_id:
-                              type: string
-                              description: The id of the developer that submitted the request.
-                            applicant_name:
-                              type: string
-                              description: The name of the developer that submitted the request.
-                            operator_id:
-                              type: string
-                              description: The id of who processed the request. The literal value `developer_portal_admin` marks an approval processed through the developer portal by a platform admin; in that case read the real operator from `metadata`.
-                            operator_name:
-                              type: string
-                              description: The name of who processed the request.
-                            metadata:
-                              type: string
-                              description: Opaque JSON string with extra processing context. When `operator_id` is `developer_portal_admin`, it holds the acting platform admin's identity, e.g. `{"operator_id":"...","operator_name":"..."}`.
-                            applied_at:
-                              $ref: "#/components/schemas/DateTime"
-                            operated_at:
-                              $ref: "#/components/schemas/DateTime"
-                  total:
-                    $ref: "#/components/schemas/Total"
+          $ref: "#/components/responses/ListApprovalResponse"
         "400":
           $ref: "#/components/responses/response400"
         "401":
@@ -686,22 +614,13 @@ paths:
       operationId: acceptApproval
       description: Approve a specific workflow request and apply the corresponding portal-side change, such as granting an API product subscription or accepting a developer sign-up.
       parameters:
-        - name: approval_id
-          in: path
-          description: Approval ID.
-          required: true
-          schema:
-            $ref: "#/components/schemas/ID"
+        - $ref: "#/components/parameters/ApprovalID"
       requestBody:
         required: false
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                metadata:
-                  type: string
-                  description: Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
+              $ref: "#/components/schemas/ApprovalActionReq"
       responses:
         "200":
           $ref: "#/components/responses/response200"
@@ -721,13 +640,13 @@ paths:
       operationId: rejectApproval
       description: Reject a specific workflow approval request so the requested action is not applied.
       parameters:
-        - $ref: "#/paths/~1api~1approvals~1%7Bapproval_id%7D~1accept/post/parameters/0"
+        - $ref: "#/components/parameters/ApprovalID"
       requestBody:
         required: false
         content:
           application/json:
             schema:
-              $ref: "#/paths/~1api~1approvals~1%7Bapproval_id%7D~1accept/post/requestBody/content/application~1json/schema"
+              $ref: "#/components/schemas/ApprovalActionReq"
       responses:
         "200":
           $ref: "#/components/responses/response200"
@@ -1533,6 +1452,37 @@ components:
         - draft
         - published
       default: draft
+    ApprovalStatus:
+      type: string
+      description: Approval status.
+      enum:
+        - pending
+        - finished
+    ApprovalResult:
+      type: string
+      description: Approval outcome.
+      enum:
+        - accepted
+        - rejected
+        - cancelled
+    ApprovalEvent:
+      type: string
+      description: Approval event.
+      enum:
+        - api_product_subscription
+        - developer_registration
+    ApprovalResourceType:
+      type: string
+      description: Resource type.
+      enum:
+        - api_product
+        - developer
+    ApprovalActionReq:
+      type: object
+      properties:
+        metadata:
+          type: string
+          description: Opaque JSON string stored on the approval. The developer portal uses it to carry the acting platform admin's identity.
   parameters:
     Page:
       name: page
@@ -1748,6 +1698,13 @@ components:
           - developer_credential
           - developer_application
           - api_product
+    ApprovalID:
+      name: approval_id
+      in: path
+      description: Approval ID.
+      required: true
+      schema:
+        $ref: "#/components/schemas/ID"
   responses:
     response200:
       description: The operation was successful.
@@ -1975,3 +1932,60 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/PortalPublicAccess"
+    ListApprovalResponse:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - list
+              - total
+            properties:
+              list:
+                type: array
+                description: An array of approvals.
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/ResourceBasics"
+                    - type: object
+                      required:
+                        - event
+                        - status
+                        - resource_type
+                      properties:
+                        event:
+                          $ref: "#/components/schemas/ApprovalEvent"
+                        status:
+                          $ref: "#/components/schemas/ApprovalStatus"
+                        result:
+                          $ref: "#/components/schemas/ApprovalResult"
+                        resource_type:
+                          $ref: "#/components/schemas/ApprovalResourceType"
+                        resource_id:
+                          type: string
+                          description: The id of the resource being approved (e.g. the API product id).
+                        resource_name:
+                          type: string
+                          description: The name of the resource being approved.
+                        applicant_id:
+                          type: string
+                          description: The id of the developer that submitted the request.
+                        applicant_name:
+                          type: string
+                          description: The name of the developer that submitted the request.
+                        operator_id:
+                          type: string
+                          description: The id of who processed the request. The literal value `developer_portal_admin` marks an approval processed through the developer portal by a platform admin; in that case read the real operator from `metadata`.
+                        operator_name:
+                          type: string
+                          description: The name of who processed the request.
+                        metadata:
+                          type: string
+                          description: Opaque JSON string with extra processing context. When `operator_id` is `developer_portal_admin`, it holds the acting platform admin's identity, e.g. `{"operator_id":"...","operator_name":"..."}`.
+                        applied_at:
+                          $ref: "#/components/schemas/DateTime"
+                        operated_at:
+                          $ref: "#/components/schemas/DateTime"
+              total:
+                $ref: "#/components/schemas/Total"

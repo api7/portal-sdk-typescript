@@ -1,11 +1,10 @@
 import {
   acceptApproval,
+  ApprovalActionReq,
   listApprovals,
   rejectApproval,
-  type AcceptApprovalData,
   type ListApprovalsData,
   type ListApprovalsResponses,
-  type RejectApprovalData,
 } from './generated/index.js';
 import { Client } from './generated/client/types.gen.js';
 import { transformResponse } from './utils.js';
@@ -33,10 +32,7 @@ export class ApprovalAPI {
    * @param data Optional request body (e.g. operator metadata).
    * @throws {APIError} If the API request fails or network error occurs.
    */
-  public async accept(
-    id: string,
-    data?: AcceptApprovalData['body'],
-  ): Promise<void> {
+  public async accept(id: string, data?: ApprovalActionReq): Promise<void> {
     transformResponse(
       await acceptApproval({
         client: this.client,
@@ -52,10 +48,7 @@ export class ApprovalAPI {
    * @param data Optional request body (e.g. operator metadata).
    * @throws {APIError} If the API request fails or network error occurs.
    */
-  public async reject(
-    id: string,
-    data?: RejectApprovalData['body'],
-  ): Promise<void> {
+  public async reject(id: string, data?: ApprovalActionReq): Promise<void> {
     transformResponse(
       await rejectApproval({
         client: this.client,
