@@ -5,47 +5,36 @@
   "scripts": {},
   "private": true,
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
-    "@nx/eslint": "22.6.3",
-    "@nx/eslint-plugin": "22.6.3",
-    "@nx/js": "22.6.3",
-    "@nx/vite": "22.6.3",
-    "@nx/vitest": "22.6.3",
-    "@nx/web": "22.6.3",
+    "@eslint/js": "^10.0.1",
+    "@nx/eslint": "22.7.5",
+    "@nx/eslint-plugin": "22.7.5",
+    "@nx/js": "22.7.5",
+    "@nx/vite": "22.7.5",
+    "@nx/vitest": "22.7.5",
+    "@nx/web": "22.7.5",
     "@swc-node/register": "1.11.1",
-    "@swc/core": "1.15.8",
-    "@swc/helpers": "0.5.20",
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/node": "^22.16.5",
-    "@vitest/coverage-v8": "^4.0.0",
-    "@vitest/ui": "^4.0.0",
-    "eslint": "^9.8.0",
+    "@swc/core": "1.15.40",
+    "@swc/helpers": "0.5.23",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "^24",
+    "@vitest/coverage-v8": "^4.1.8",
+    "@vitest/ui": "^4.1.8",
+    "eslint": "^10.4.1",
     "eslint-config-prettier": "^10.0.0",
-    "jiti": "2.4.2",
-    "jsdom": "~22.1.0",
-    "jsonc-eslint-parser": "^2.1.0",
-    "nx": "22.6.3",
+    "jiti": "2.7.0",
+    "jsdom": "~29.1.1",
+    "jsonc-eslint-parser": "^3.1.0",
+    "nx": "22.7.5",
     "prettier": "^3.7.4",
     "tslib": "^2.3.0",
-    "typescript": "~5.9.2",
-    "typescript-eslint": "^8.40.0",
-    "verdaccio": "^6.0.5",
-    "vite": "^7.0.0",
-    "vite-plugin-dts": "~4.5.0",
-    "vitest": "^4.0.0"
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.60.1",
+    "unplugin-dts": "^1.0.2",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8"
   },
-  "nx": {
-    "includedScripts": [],
-    "targets": {
-      "local-registry": {
-        "executor": "@nx/js:verdaccio",
-        "options": {
-          "port": 4873,
-          "config": ".verdaccio/config.yml",
-          "storage": "tmp/local-registry/storage"
-        }
-      }
-    }
+  "engines": {
+    "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@11.5.1+sha512.93f7b57422ea7068257235b4c16eb60762eb68e1dc23723199cc739043ea9be2c4143274a399d8c6defa2b1176226d9ca1c4b63482d6200c1a8fbaa78c1d1485"
 }

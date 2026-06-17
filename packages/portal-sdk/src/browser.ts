@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { ApplicationAPI } from './application.js';
+import { ApprovalAPI } from './approval.js';
 import { CredentialAPI } from './credential.js';
 import {
   DCRProviderAPI,
@@ -22,6 +23,7 @@ export type Options = {
 export class API7Portal {
   public readonly apiProduct: APIProductAPI;
   public readonly application: ApplicationAPI;
+  public readonly approval: ApprovalAPI;
   public readonly credential: CredentialAPI;
   public readonly dcrProvider: DCRProviderAPI;
   public readonly developer: DeveloperAPI;
@@ -37,6 +39,7 @@ export class API7Portal {
     const client = createClient({ axios: instance });
     this.apiProduct = new APIProductAPI(client);
     this.application = new ApplicationAPI(client);
+    this.approval = new ApprovalAPI(client);
     this.credential = new CredentialAPI(client);
     this.dcrProvider = new DCRProviderAPI(client);
     this.developer = new DeveloperAPI(client);

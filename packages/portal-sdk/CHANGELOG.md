@@ -1,3 +1,9 @@
+## 1.2.0 (2026-06-08)
+
+### 🚀 Features
+
+- feat(portal-sdk): add approval API ([#14](https://github.com/api7/portal-sdk-typescript/pull/14))
+
 ## 1.1.0 (2026-03-30)
 
 ### 🚀 Features
