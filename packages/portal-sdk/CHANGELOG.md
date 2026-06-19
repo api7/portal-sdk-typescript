@@ -1,3 +1,13 @@
+## 1.3.0 (2026-06-19)
+
+### 🚀 Features
+
+- fix(portal-sdk): align oas documentation with the actual API ([#12](https://github.com/api7/portal-sdk-typescript/pull/12))
+
+### 🩹 Fixes
+
+- feat(portal-sdk): optional getDeveloperId ([#15](https://github.com/api7/portal-sdk-typescript/pull/15))
+
 ## 1.2.0 (2026-06-08)
 
 ### 🚀 Features
