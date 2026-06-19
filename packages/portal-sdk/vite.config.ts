@@ -28,7 +28,7 @@ export default defineConfig(() => ({
       name: '@api7/portal-sdk',
       formats: ['es' as const, 'cjs' as const],
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ['axios'],
     },
   },
