@@ -47,9 +47,9 @@ export class API7Portal {
       if (!config.headers[HEADER_AUTHORIZATION])
         config.headers[HEADER_AUTHORIZATION] = `Bearer ${opts.token}`;
 
-      if (!config.headers[HEADER_DEVELOPER_ID]) {
+      if (!config.headers[HEADER_DEVELOPER_ID] && opts.getDeveloperId) {
         try {
-          config.headers[HEADER_DEVELOPER_ID] = await opts.getDeveloperId?.();
+          config.headers[HEADER_DEVELOPER_ID] = await opts.getDeveloperId();
         } catch (err) {
           return Promise.reject(err);
         }
