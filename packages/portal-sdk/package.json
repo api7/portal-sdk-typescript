@@ -40,7 +40,7 @@
     "@hey-api/openapi-ts": "0.98.1"
   },
   "dependencies": {
-    "axios": "^1.17.0"
+    "axios": "^1.18.0"
   },
   "nx": {
     "name": "portal-sdk",
