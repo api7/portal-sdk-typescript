@@ -24,8 +24,19 @@ import { API7Portal } from '@api7/portal-sdk'
 const client = new API7Portal({
   endpoint: 'https://portal.example.com',
   token: 'a7prt-...',
-  getDeveloperId: async () => await getDeveloperIdFromSession(),
+  getDeveloperId: async () => await getDeveloperIdFromSession(), // optional
 });
+```
+
+The `getDeveloperId` is optional, you can also manually set the request header as `HEADER_DEVELOPER_ID` in each request.
+
+```typescript
+import { API7Portal, HEADER_DEVELOPER_ID } from '@api7/portal-sdk'
+
+const client = new API7Portal({ ... });
+client.proxy({
+  headers: { [HEADER_DEVELOPER_ID]: "YOUR_DEVELOPER_ID" },
+})
 ```
 
 ### Client-side (Browser)

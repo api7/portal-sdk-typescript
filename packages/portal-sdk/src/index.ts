@@ -14,12 +14,15 @@ import { createClient } from './generated/client/index.js';
 
 export { APIError } from './utils.js';
 
+export const HEADER_AUTHORIZATION = 'Authorization';
+export const HEADER_DEVELOPER_ID = 'X-Portal-Developer-ID';
+
 export type Options = {
   axios?: AxiosInstance;
 
   endpoint: string;
   token: string;
-  getDeveloperId: () => Promise<string>;
+  getDeveloperId?: () => Promise<string>;
 };
 
 export class API7Portal {
@@ -41,14 +44,12 @@ export class API7Portal {
     instance.interceptors.request.use(async (config) => {
       config.headers = config.headers ?? {};
 
-      const AUTHORIZATION_HEADER = 'Authorization';
-      if (!config.headers[AUTHORIZATION_HEADER])
-        config.headers[AUTHORIZATION_HEADER] = `Bearer ${opts.token}`;
+      if (!config.headers[HEADER_AUTHORIZATION])
+        config.headers[HEADER_AUTHORIZATION] = `Bearer ${opts.token}`;
 
-      const DEVELOPER_ID_HEADER = 'X-Portal-Developer-ID';
-      if (!config.headers[DEVELOPER_ID_HEADER]) {
+      if (!config.headers[HEADER_DEVELOPER_ID] && opts.getDeveloperId) {
         try {
-          config.headers[DEVELOPER_ID_HEADER] = await opts.getDeveloperId();
+          config.headers[HEADER_DEVELOPER_ID] = await opts.getDeveloperId();
         } catch (err) {
           return Promise.reject(err);
         }
