@@ -22,7 +22,6 @@ export default defineConfig(() => ({
     lib: {
       entry: {
         index: 'src/index.ts',
-        browser: 'src/browser.ts',
         'unstable-types': 'src/unstable/typing.ts',
       },
       name: '@api7/portal-sdk',
