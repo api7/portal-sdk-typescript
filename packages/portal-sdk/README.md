@@ -3,12 +3,14 @@
 ## Install
 
 ```sh
-npm install @api7/portal-sdk
+npm install @api7/portal-sdk axios
 # or
-yarn add @api7/portal-sdk
+yarn add @api7/portal-sdk axios
 # or
-pnpm add @api7/portal-sdk
+pnpm add @api7/portal-sdk axios
 ```
+
+`axios` is a peer dependency, so it must be installed alongside this package. Most package managers will install it for you automatically, but if not, add it explicitly.
 
 This package supports both ESM and CJS.
 

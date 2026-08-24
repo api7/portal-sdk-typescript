@@ -31,9 +31,10 @@
     "!**/*.tsbuildinfo"
   ],
   "devDependencies": {
-    "@hey-api/openapi-ts": "0.98.1"
+    "@hey-api/openapi-ts": "0.99.0",
+    "axios": "^1.18.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^1.18.0"
   },
   "nx": {
