@@ -6,17 +6,11 @@
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
     "emitDeclarationOnly": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [
-      "node",
-      "vite/client"
-    ],
-    "lib": [
-      "DOM"
-    ]
+    "types": ["node", "vite/client"],
+    "lib": ["DOM"],
+    "ignoreDeprecations": "6.0"
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "references": [],
   "exclude": [
     "vite.config.ts",
