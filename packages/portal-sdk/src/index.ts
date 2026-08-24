@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { ApplicationAPI } from './application.js';
 import { ApprovalAPI } from './approval.js';
 import { CredentialAPI } from './credential.js';
@@ -35,7 +35,6 @@ export class API7Portal {
   public readonly misc: MiscellaneousAPI;
   public readonly subscription: SubscriptionAPI;
   public readonly systemSetting: SystemSettingAPI;
-  public readonly proxy: (req: AxiosRequestConfig) => Promise<AxiosResponse>;
 
   constructor(opts: Options) {
     const instance = opts.axios ?? axios.create();
@@ -68,6 +67,5 @@ export class API7Portal {
     this.misc = new MiscellaneousAPI(client);
     this.subscription = new SubscriptionAPI(client);
     this.systemSetting = new SystemSettingAPI(client);
-    this.proxy = (req: AxiosRequestConfig) => instance.request(req);
   }
 }

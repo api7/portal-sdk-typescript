@@ -10,13 +10,13 @@ yarn add @api7/portal-sdk
 pnpm add @api7/portal-sdk
 ```
 
-This package supports both ESM and CJS, and you can use it in browsers and Node.js.
+This package supports both ESM and CJS.
 
 ## Configure
 
 ### Server-side (Node.js/Serverless/Edge-functions)
 
-Call APIs in the backend or build a BFF.
+Call APIs directly from your backend, e.g. within a server function.
 
 ```typescript
 import { API7Portal } from '@api7/portal-sdk'
@@ -28,26 +28,16 @@ const client = new API7Portal({
 });
 ```
 
-The `getDeveloperId` is optional, you can also manually set the request header as `HEADER_DEVELOPER_ID` in each request.
+The `getDeveloperId` is optional, you can also manually set the default request header as `HEADER_DEVELOPER_ID` on your own axios instance.
 
 ```typescript
+import axios from 'axios'
 import { API7Portal, HEADER_DEVELOPER_ID } from '@api7/portal-sdk'
 
-const client = new API7Portal({ ... });
-client.proxy({
+const instance = axios.create({
   headers: { [HEADER_DEVELOPER_ID]: "YOUR_DEVELOPER_ID" },
-})
-```
-
-### Client-side (Browser)
-
-This pattern is used to send requests to a BFF on the same origin within the browser. Authentication and Developer ID injection should occur within the BFF, so you do not need to configure authentication here.
-
-```typescript
-import { API7Portal } from '@api7/portal-sdk/browser'
-
-// request the API exposed on current page's window.origin
-const client = new API7Portal();
+});
+const client = new API7Portal({ ..., axios: instance });
 ```
 
 ## Usage
@@ -57,24 +47,6 @@ const client = new API7Portal();
 ```typescript
 const apps = await client.apiProduct.list();
 console.log(apps);
-```
-
-### Proxy requests through SDK
-
-> [!IMPORTANT]
-> This applies only to the Server-side SDK.
->
-> I.e., using the SDK imported via `import { API7Portal } from '@api7/portal-sdk'`.
-
-It is used to design and build the BFF, which enables lightweight API reverse proxies on the server to inject additional fields when forwarding requests to backend services.
-
-```typescript
-const resp = await client.proxy({
-  method: clientReq.method,
-  url: clientReq.url,
-  headers: clientReq.headers,
-  data: clientReq.body,
-});
 ```
 
 ## Error Handling
