@@ -6,5 +6,8 @@
     {
       "path": "./packages/portal-sdk"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }
