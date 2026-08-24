@@ -1,3 +1,9 @@
+# 2.0.0 (2026-08-24)
+
+### ⚠️  Breaking Changes
+
+- feat(portal-sdk): deprecate bff proxy mode ([#17](https://github.com/api7/portal-sdk-typescript/pull/17))
+
 ## 1.3.0 (2026-06-19)
 
 ### 🚀 Features
