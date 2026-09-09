@@ -1,3 +1,9 @@
+## 2.0.1 (2026-09-09)
+
+### 🩹 Fixes
+
+- docs(portal-sdk): add compatibility matrix ([#19](https://github.com/api7/portal-sdk-typescript/pull/19))
+
 # 2.0.0 (2026-08-24)
 
 ### ⚠️  Breaking Changes
