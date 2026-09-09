@@ -17,6 +17,7 @@ export class SubscriptionAPI {
    * @param query Optional query parameters.
    * @returns The list of subscriptions.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     query?: ListSubscriptionsData['query'],
@@ -31,6 +32,7 @@ export class SubscriptionAPI {
    * @param data The subscription data.
    * @returns The created subscription.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async bulkSubscribe(data: CreateSubscriptionReq): Promise<void> {
     transformResponse(
@@ -43,6 +45,7 @@ export class SubscriptionAPI {
    * @param id The subscription ID.
    * @returns The result of the unsubscription.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async unsubscribe(id: string): Promise<void> {
     transformResponse(
