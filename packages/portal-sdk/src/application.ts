@@ -28,6 +28,7 @@ export class ApplicationAPI {
    * @param data The application data.
    * @returns The created developer application.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async create(
     data: CreateDeveloperApplicationReq,
@@ -45,6 +46,7 @@ export class ApplicationAPI {
    * @param query The query parameters.
    * @returns The list of developer's applications.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     query?: ListDeveloperApplicationsData['query'],
@@ -59,6 +61,7 @@ export class ApplicationAPI {
    * @param applicationId The application ID.
    * @returns The developer application.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async get(applicationId: string): Promise<DeveloperApplication> {
     return transformResponse(
@@ -75,6 +78,7 @@ export class ApplicationAPI {
    * @param data The application data.
    * @returns The updated developer application.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async update(
     applicationId: string,
@@ -93,6 +97,7 @@ export class ApplicationAPI {
    * Delete a developer application.
    * @param applicationId The application ID.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async delete(applicationId: string): Promise<void> {
     transformResponse(
@@ -108,6 +113,7 @@ export class ApplicationAPI {
    * @param query The query parameters.
    * @returns The API call metrics.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async apiCall(
     query: GetApiCallsData['query'],

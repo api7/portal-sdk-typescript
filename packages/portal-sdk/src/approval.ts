@@ -17,6 +17,8 @@ export class ApprovalAPI {
    * @param query Optional query parameters.
    * @returns The list of approvals.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.14
+   * @since 3.10.1
    */
   public async list(
     query?: ListApprovalsData['query'],
@@ -31,6 +33,8 @@ export class ApprovalAPI {
    * @param id The approval ID.
    * @param data Optional request body (e.g. operator metadata).
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.14
+   * @since 3.10.1
    */
   public async accept(id: string, data?: ApprovalActionReq): Promise<void> {
     transformResponse(
@@ -47,6 +51,8 @@ export class ApprovalAPI {
    * @param id The approval ID.
    * @param data Optional request body (e.g. operator metadata).
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.14
+   * @since 3.10.1
    */
   public async reject(id: string, data?: ApprovalActionReq): Promise<void> {
     transformResponse(

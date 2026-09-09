@@ -27,6 +27,7 @@ export class ApplicationCredentialAPI {
    * @param data The credential data.
    * @returns The created application credential.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async create(
     applicationId: string,
@@ -47,6 +48,7 @@ export class ApplicationCredentialAPI {
    * @param query The query parameters.
    * @returns The list of application credentials.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     applicationId: string,
@@ -67,6 +69,7 @@ export class ApplicationCredentialAPI {
    * @param credentialId The credential ID.
    * @returns The application credential.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async get(
     applicationId: string,
@@ -90,6 +93,7 @@ export class ApplicationCredentialAPI {
    * @param data The credential data.
    * @returns The updated application credential.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async update(
     applicationId: string,
@@ -113,6 +117,7 @@ export class ApplicationCredentialAPI {
    * @param applicationId The application ID.
    * @param credentialId The credential ID.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async delete(
     applicationId: string,
@@ -136,6 +141,7 @@ export class ApplicationCredentialAPI {
    * @param data The credential data.
    * @returns The regenerated application credential.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async regenerate(
     applicationId: string,
@@ -163,6 +169,7 @@ export class CredentialAPI {
    * @param query The query parameters.
    * @returns The list of credentials.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     query: ListCredentialsData['query'],

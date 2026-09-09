@@ -17,6 +17,7 @@ export class DCRProviderAPI {
    * List all DCR providers.
    * @returns The list of DCR providers.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     query?: ListDcrProvidersData['query'],
@@ -34,6 +35,7 @@ export class SystemSettingAPI {
    * Get public access settings.
    * @returns Whether the developer portal is publicly accessible.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async getPublicAccess(): Promise<boolean> {
     return transformResponse(
@@ -50,6 +52,7 @@ export class MiscellaneousAPI {
    * @param type The resource type.
    * @returns The list of labels.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async listLabels(
     type: DeveloperPortalLabelResourceType,

@@ -18,6 +18,7 @@ export class DeveloperAPI {
    * @param data The developer data.
    * @returns The created developer.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async create(data: CreateDeveloperReq): Promise<Developer> {
     return transformResponse(
@@ -30,6 +31,7 @@ export class DeveloperAPI {
    * @param query Optional query parameters.
    * @returns The list of developers.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     query?: ListDevelopersData['query']
@@ -43,6 +45,7 @@ export class DeveloperAPI {
    * Delete a developer by ID.
    * @param id The developer ID.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async delete(id: string): Promise<void> {
     transformResponse(

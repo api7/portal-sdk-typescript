@@ -18,6 +18,7 @@ export class APIProductAPI {
    * @param query The query parameters.
    * @returns The list of API products.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async list(
     query?: ListApiProductsData['query'],
@@ -32,6 +33,7 @@ export class APIProductAPI {
    * @param id The API product ID.
    * @returns The API product.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async get(id: string): Promise<ApiProduct> {
     return transformResponse(
@@ -47,6 +49,7 @@ export class APIProductAPI {
    * @param id The API product ID.
    * @param data The subscription data.
    * @throws {APIError} If the API request fails or network error occurs.
+   * @since 3.9.0
    */
   public async subscribe(
     id: string,

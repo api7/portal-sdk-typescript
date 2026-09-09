@@ -51,6 +51,25 @@ const apps = await client.apiProduct.list();
 console.log(apps);
 ```
 
+## API Compatibility
+
+This SDK targets API7 Enterprise 3.9+. Minimum version per feature:
+
+| Feature | Client property | 3.9.x | 3.10.x |
+| --- | --- | --- | --- |
+| API Products | `apiProduct` | 3.9.0 | 3.10.0 |
+| Applications | `application` | 3.9.0 | 3.10.0 |
+| Application Credentials | `application.credential` | 3.9.0 | 3.10.0 |
+| Credentials (cross-application) | `credential` | 3.9.0 | 3.10.0 |
+| Subscriptions | `subscription` | 3.9.0 | 3.10.0 |
+| Developers | `developer` | 3.9.0 | 3.10.0 |
+| Approvals | `approval` | 3.9.14 | 3.10.1 |
+| DCR Providers | `dcrProvider` | 3.9.0 | 3.10.0 |
+| Labels | `misc` | 3.9.0 | 3.10.0 |
+| System Settings | `systemSetting` | 3.9.0 | 3.10.0 |
+
+Method-level detail lives in each method's `@since` JSDoc tag.
+
 ## Error Handling
 
 When you call an API, APIError is the only type of error expected to be thrown, whether it's an error on the REST API or a network error.
